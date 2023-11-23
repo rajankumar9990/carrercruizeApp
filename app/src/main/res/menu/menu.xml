@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="home" />
-    <item android:title="jobs" />
-    <item android:title="profile" />
+    <item
+        android:id="@+id/homenavigate"
+        android:icon="@drawable/ic_baseline_home_24"
+        android:title="Home" />
+    <item
+        android:id="@+id/jobnavigate"
+        android:icon="@drawable/ic_baseline_engineering_24"
+        android:title="Jobs" />
+    <item
+        android:id="@+id/profilenavigate"
+        android:icon="@drawable/ic_baseline_perm_identity_24"
+        android:title="Profile" />
 </menu>
