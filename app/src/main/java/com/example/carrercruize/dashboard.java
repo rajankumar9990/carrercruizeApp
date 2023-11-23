@@ -47,10 +47,10 @@ public class dashboard extends AppCompatActivity {
                         getSupportFragmentManager ().beginTransaction ().replace (R.id.container,homeFragment).commit ();
                         return true;
                     case R.id.jobnavigate:
-                        getSupportFragmentManager ().beginTransaction ().replace (R.id.container,homeFragment).commit ();
+                        getSupportFragmentManager ().beginTransaction ().replace (R.id.container,jobFragment).commit ();
                         return true;
                     case R.id.profilenavigate:
-                        getSupportFragmentManager ().beginTransaction ().replace (R.id.container,homeFragment).commit ();
+                        getSupportFragmentManager ().beginTransaction ().replace (R.id.container,profileFragment).commit ();
                         return true;
                 }
                 return false;
