@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +36,61 @@ public class home_fragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager (getActivity ()));
         recyclerView.setAdapter(jobAdapter);
 
+        //location spinner
+        Spinner locationspiner=view.findViewById (R.id.spinner_location);
+        List<String> locationList = new ArrayList<>();
+        locationList.add ("Location");
+        locationList.add("Sonipat");
+        locationList.add("Mumbai");
+        locationList.add ("New Delhi");
+        locationList.add("Pune");
+        // Add more cities as needed
+
+        // Populate the Spinner with the list of items
+        ArrayAdapter<String> locationAdapter = new ArrayAdapter<>(
+                requireContext(),
+                android.R.layout.simple_spinner_item,
+                locationList
+        );
+        locationAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        locationspiner.setAdapter (locationAdapter);
+
+        //salary spinner
+        Spinner salaryspiner=view.findViewById (R.id.spinner_salary);
+        List<String> salaryList = new ArrayList<>();
+        salaryList.add ("Salary");
+        salaryList.add("< 1Lakh>");
+        salaryList.add("1Lakh to 10Lakh");
+        salaryList.add ("> 10Lakh");
+        // Add more cities as needed
+
+        // Populate the Spinner with the list of items
+        ArrayAdapter<String> salaryAdapter = new ArrayAdapter<>(
+                requireContext(),
+                android.R.layout.simple_spinner_item,
+                salaryList
+        );
+        salaryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        salaryspiner.setAdapter (salaryAdapter);
+
+        //job spinner
+        Spinner jobspiner=view.findViewById (R.id.spinner_job_title);
+        List<String> jobList = new ArrayList<>();
+        jobList.add ("Job Title");
+        jobList.add("Data Scientist");
+        jobList.add("Android Dev");
+        jobList.add ("Web Dev");
+        jobList.add("Software Engineer");
+        // Add more cities as needed
+
+        // Populate the Spinner with the list of items
+        ArrayAdapter<String> jobAdapter = new ArrayAdapter<>(
+                requireContext(),
+                android.R.layout.simple_spinner_item,
+                jobList
+        );
+        jobAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        jobspiner.setAdapter (jobAdapter);
         return view;
     }
 }
