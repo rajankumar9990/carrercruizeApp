@@ -15,10 +15,49 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
-            <Spinner
-                android:id="@+id/spinner"
+            <!-- Filter Section -->
+            <LinearLayout
+                android:id="@+id/filter_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="16dp">
+
+                <!-- Location Filter -->
+                <Spinner
+                    android:id="@+id/spinner_location"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:prompt="@string/select_location"/>
+
+                <!-- Salary Filter -->
+                <Spinner
+                    android:id="@+id/spinner_salary"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:prompt="@string/select_salary"/>
+
+                <!-- Job Title Filter -->
+                <Spinner
+                    android:id="@+id/spinner_job_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:prompt="@string/select_job_title"/>
+
+            </LinearLayout>
+
+            <!-- RecyclerView for Job Listings -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_jobs"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/filter_layout"
+
+                android:layout_marginTop="16dp"/>
+
         </LinearLayout>
     </ScrollView>
 </FrameLayout>

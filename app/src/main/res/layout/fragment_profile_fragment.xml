@@ -6,9 +6,91 @@
     tools:context=".profile_fragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+    <!-- Profile Picture -->
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical" >
+            <ImageView
+                android:id="@+id/profile_picture"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:src="@drawable/ic_baseline_perm_identity_24"
+                android:scaleType="centerCrop"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="16dp"/>
+
+            <!-- User Information -->
+            <TextView
+                android:id="@+id/text_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rajan"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_below="@id/profile_picture"
+                android:layout_marginTop="16dp"
+                android:layout_centerHorizontal="true"/>
+
+            <TextView
+                android:id="@+id/text_job_title1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Software Developer"
+                android:textSize="16sp"
+                android:layout_below="@id/text_username"
+                android:layout_marginTop="8dp"
+                android:layout_centerHorizontal="true"/>
+
+            <TextView
+                android:id="@+id/text_skills"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Java, Android, XML"
+                android:textSize="14sp"
+                android:layout_below="@id/text_job_title"
+                android:layout_marginTop="8dp"
+                android:layout_centerHorizontal="true"/>
+
+            <!-- Edit Profile Button -->
+            <Button
+                android:id="@+id/btn_edit_profile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Edit Profile"
+                android:layout_below="@id/text_skills"
+                android:layout_marginTop="16dp"
+                android:layout_centerHorizontal="true"/>
+
+            <!-- View Resume Button -->
+            <Button
+                android:id="@+id/btn_view_resume"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="View Resume"
+                android:layout_below="@id/btn_edit_profile"
+                android:layout_marginTop="8dp"
+                android:layout_centerHorizontal="true"/>
+
+            <!-- Contact Button or Link -->
+            <Button
+                android:id="@+id/btn_contact"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Contact Me"
+                android:layout_below="@id/btn_view_resume"
+                android:layout_marginTop="8dp"
+                android:layout_centerHorizontal="true"/>
+
+
+        </LinearLayout>
+    </ScrollView>
+
 
 </FrameLayout>
