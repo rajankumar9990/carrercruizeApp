@@ -21,7 +21,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="#051EBC"
+            android:background="#04147A"
             app:popupTheme="@style/Widget.AppCompat.PopupMenu">
 
             <TextView
