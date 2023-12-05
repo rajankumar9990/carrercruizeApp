@@ -44,6 +44,10 @@ public class MainActivity extends AppCompatActivity {
         //handling google signin
         gso=new GoogleSignInOptions.Builder ( GoogleSignInOptions.DEFAULT_SIGN_IN ).requestEmail ().build ();
         gsc= GoogleSignIn.getClient (this,gso);
+        GoogleSignInAccount aat=GoogleSignIn.getLastSignedInAccount (this);
+        if(aat!=null){
+            startActivity (new Intent ( MainActivity.this,dashboard.class ));
+        }
         signinbygoogle.setOnClickListener (new View.OnClickListener ( ) {
             @Override
             public void onClick(View v) {
