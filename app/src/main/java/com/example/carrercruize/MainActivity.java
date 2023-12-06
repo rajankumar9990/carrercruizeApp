@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -14,6 +15,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 
@@ -26,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Button signup= findViewById(R.id.button);
-        Button signinbygoogle=findViewById(R.id.button2);
+        SignInButton signinbygoogle=findViewById(R.id.button2);
         TextView loginbtn=findViewById(R.id.textView7);
         loginbtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,16 +66,26 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult (requestCode, resultCode, data);
-        if(resultCode==1000){
+        if(requestCode==1000){
             Task<GoogleSignInAccount> task=GoogleSignIn.getSignedInAccountFromIntent (data);
-            try{
-                task.getResult (ApiException.class);
-                finish ();
-                startActivity (new Intent ( MainActivity.this,dashboard.class ));
-            }
-            catch (ApiException e){
-                Toast.makeText (this, "Something went wrong", Toast.LENGTH_SHORT).show ( );
-            }
+            handleSignInResult (task);
+
+        }
+    }
+    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
+
+        try {
+            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+            Toast.makeText (MainActivity.this,"Login Successful",Toast.LENGTH_SHORT).show ();
+            startActivity (new Intent ( MainActivity.this,dashboard.class ));
+
+            // Signed in successfully, show authenticated UI.
+
+        } catch (ApiException e) {
+            // The ApiException status code indicates the detailed failure reason.
+            // Please refer to the GoogleSignInStatusCodes class reference for more information.
+            Toast.makeText(this, "Something Went Wrong!", Toast.LENGTH_SHORT).show();
+            Log.d ("login Failed",e.toString ());
         }
     }
 }
