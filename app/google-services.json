@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "945585386439",
+    "project_id": "careercruze-1f3ef",
+    "storage_bucket": "careercruze-1f3ef.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:945585386439:android:d8b6f220d2576e7cc4dfe2",
+        "android_client_info": {
+          "package_name": "com.example.carrercruize"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAKq2H6o6qCfadl2NOwl1pjK2TCHzJOxN0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
