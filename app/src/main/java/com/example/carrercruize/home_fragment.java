@@ -32,7 +32,11 @@ public class home_fragment extends Fragment {
     private RecyclerView recyclerView;
     private joblistadapter jobAdapter;
     private static final String API_URL = "https://careercruzefunction.azurewebsites.net/api/HttpTrigger1?";
-
+    private ArrayList<String> datelist;
+    ArrayList<String> locationlist;
+    ArrayList<String> descriptionlist;
+    ArrayList<String> salarylist;
+    ArrayList<String> jtitlelist;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -40,12 +44,19 @@ public class home_fragment extends Fragment {
         // Inflate the layout for this fragment
         View view= inflater.inflate (R.layout.fragment_home_fragment, container, false);
         // Sample data
-        List<joblisting> jobListings = new ArrayList<> ();
-        jobListings.add(new joblisting ("Software Engineer", "Developing awesome apps", "City A", "$80,000", "2023-01-01"));
-        jobListings.add(new joblisting ("Data Scientist", "Analyzing big data sets", "City B", "$90,000", "2023-01-02"));
-        // Add more job listings as needed
-
+        joblisting jobListings=new joblisting ();
+        jobListings.setSalarylist (salarylist);
+        jobListings.setDatelist (datelist);
+        jobListings.setJtitlelist (jtitlelist);
+        jobListings.setDescriptionlist (descriptionlist);
+        jobListings.setLocationlist (locationlist);
         // Initialize RecyclerView and set the adapter
+        datelist=new ArrayList<> (  );
+        locationlist=new ArrayList<> (  );
+        descriptionlist=new ArrayList<> (  );
+        salarylist=new ArrayList<> (  );
+        jtitlelist=new ArrayList<> (  );
+
         recyclerView = view.findViewById (R.id.recycler_view_jobs);
         jobAdapter = new joblistadapter (jobListings);
         recyclerView.setLayoutManager(new LinearLayoutManager (getActivity ()));
@@ -165,6 +176,7 @@ public class home_fragment extends Fragment {
                     String desc = descArray.optString(i, "N/A");
                     String location = locationArray.optString(i, "N/A");
                     String salary = salaryArray.optString(i, "N/A");
+
 
                     // Perform actions with individual parameters (e.g., display in UI, log, etc.)
                     Log.d("API Result", "Date: " + date);

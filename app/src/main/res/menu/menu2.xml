@@ -3,4 +3,7 @@
 
     <item android:title="Contact Us" />
     <item android:title="Terms and Conditions" />
+    <item
+        android:id="@+id/signoutapp"
+        android:title="Sign Out" />
 </menu>

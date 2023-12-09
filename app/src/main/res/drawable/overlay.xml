@@ -1,0 +1,14 @@
+<!-- res/drawable/overlay.xml -->
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <!-- Background Image -->
+        <bitmap android:src="@drawable/llogin"  />
+    </item>
+    <item>
+        <!-- Semi-Transparent Overlay -->
+        <shape android:shape="rectangle">
+            <solid android:color="#80000000"/> <!-- Adjust the alpha value as needed -->
+        </shape>
+    </item>
+</layer-list>

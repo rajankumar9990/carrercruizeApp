@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,13 +31,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Button signup= findViewById(R.id.button);
         SignInButton signinbygoogle=findViewById(R.id.button2);
-        TextView loginbtn=findViewById(R.id.textView7);
-        loginbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this,login_page.class));
-            }
-        });
+        applySlideInAnimationToButton (R.id.textView4);
+        applySlideInAnimationToButton (R.id.textView5);
+        applySlideInAnimationToButton (R.id.textView6);
+
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -87,5 +86,10 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Something Went Wrong!", Toast.LENGTH_SHORT).show();
             Log.d ("login Failed",e.toString ());
         }
+    }
+    private void applySlideInAnimationToButton(int buttonId) {
+        TextView saveButton = findViewById(buttonId);
+        Animation scaleUpAnimation = AnimationUtils.loadAnimation(this, R.anim.slide_in);
+        saveButton.startAnimation(scaleUpAnimation);
     }
 }

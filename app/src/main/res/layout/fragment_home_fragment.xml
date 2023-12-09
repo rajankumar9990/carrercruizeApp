@@ -4,50 +4,45 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".home_fragment">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="200sp"
+
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/overlay"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/searchView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10sp"
+                android:background="#ffffff"
+                android:iconifiedByDefault="false"
+                android:queryHint="Search for items..." />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         tools:ignore="SpeakableTextPresentCheck">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <!-- Filter Section -->
-            <LinearLayout
-                android:id="@+id/filter_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="16dp">
-
-                <!-- Location Filter -->
-                <Spinner
-                    android:id="@+id/spinner_location"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:prompt="@string/select_location"/>
-
-                <!-- Salary Filter -->
-                <Spinner
-                    android:id="@+id/spinner_salary"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:prompt="@string/select_salary"/>
-
-                <!-- Job Title Filter -->
-                <Spinner
-                    android:id="@+id/spinner_job_title"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:prompt="@string/select_job_title"/>
-
-            </LinearLayout>
 
             <!-- RecyclerView for Job Listings -->
             <androidx.recyclerview.widget.RecyclerView
@@ -55,9 +50,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@id/filter_layout"
-                tools:listitem="@layout/jobadapter"
-                android:layout_marginTop="16dp"/>
+                android:layout_marginTop="16dp"
+                tools:listitem="@layout/jobadapter" />
 
         </LinearLayout>
     </ScrollView>
+</LinearLayout>
 </FrameLayout>

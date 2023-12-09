@@ -7,9 +7,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public class joblistadapter extends RecyclerView.Adapter<joblistingholder> {
-    private List<joblisting> joblistings;
+    private joblisting joblistings;
 
-    public joblistadapter(List<joblisting> joblistings) {
+    public joblistadapter(joblisting joblistings) {
         this.joblistings = joblistings;
     }
 
@@ -22,18 +22,17 @@ public class joblistadapter extends RecyclerView.Adapter<joblistingholder> {
 
     @Override
     public void onBindViewHolder(joblistingholder holder, int position) {
-        joblisting joblisting = joblistings.get(position);
 
         // Bind data to ViewHolder
-        holder.titleTextView.setText(joblisting.getTitle());
-        holder.descriptionTextView.setText(joblisting.getDescription());
-        holder.locationTextView.setText(joblisting.getLocation());
-        holder.salaryTextView.setText(joblisting.getSalary());
-        holder.datePostedTextView.setText(joblisting.getDatePosted());
+        holder.titleTextView.setText(joblistings.getJtitlelist ().get (position));
+        holder.descriptionTextView.setText(joblistings.getDescriptionlist ().get (position));
+        holder.locationTextView.setText(joblistings.getLocationlist ().get (position));
+        holder.salaryTextView.setText(joblistings.getSalarylist ().get (position));
+        holder.datePostedTextView.setText(joblistings.getDatelist ().get (position));
     }
 
     @Override
     public int getItemCount() {
-        return joblistings.size();
+        return joblistings.getJtitlelist ().size();
     }
 }

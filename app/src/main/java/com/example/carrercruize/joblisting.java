@@ -1,61 +1,57 @@
 package com.example.carrercruize;
 
+import java.util.ArrayList;
+
 public class joblisting {
-    private String title;
-    private String description;
-    private String location;
-    private String salary;
+    ArrayList<String> datelist=new ArrayList<> (  );
+    ArrayList<String> locationlist=new ArrayList<> (  );
+    ArrayList<String> descriptionlist=new ArrayList<> (  );
+    ArrayList<String> salarylist=new ArrayList<> (  );
 
-    public String getTitle() {
-        return title;
+    public ArrayList<String> getDatelist() {
+        return datelist;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setDatelist(ArrayList<String> datelist) {
+        this.datelist = datelist;
     }
 
-    public String getDescription() {
-        return description;
+    public ArrayList<String> getLocationlist() {
+        return locationlist;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setLocationlist(ArrayList<String> locationlist) {
+        this.locationlist = locationlist;
     }
 
-    public String getLocation() {
-        return location;
+    public ArrayList<String> getDescriptionlist() {
+        return descriptionlist;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setDescriptionlist(ArrayList<String> descriptionlist) {
+        this.descriptionlist = descriptionlist;
     }
 
-    public String getSalary() {
-        return salary;
+    public ArrayList<String> getSalarylist() {
+        return salarylist;
     }
 
-    public void setSalary(String salary) {
-        this.salary = salary;
+    public void setSalarylist(ArrayList<String> salarylist) {
+        this.salarylist = salarylist;
     }
 
-    public String getDatePosted() {
-        return datePosted;
+    public ArrayList<String> getJtitlelist() {
+        return jtitlelist;
     }
 
-    public void setDatePosted(String datePosted) {
-        this.datePosted = datePosted;
+    public void setJtitlelist(ArrayList<String> jtitlelist) {
+        this.jtitlelist = jtitlelist;
     }
 
-    private String datePosted;
-
-    public joblisting(String title, String description, String location, String salary, String datePosted) {
-        this.title = title;
-        this.description = description;
-        this.location = location;
-        this.salary = salary;
-        this.datePosted = datePosted;
-    }
-
+    ArrayList<String> jtitlelist=new ArrayList<> (  );
     // Getter methods
     // Add additional methods as needed
+    public void joblisting(){
+
+    }
 }

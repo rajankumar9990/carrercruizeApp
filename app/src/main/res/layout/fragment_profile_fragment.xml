@@ -1,27 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/photo1"
     tools:context=".profile_fragment">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/profileview"
-        android:layout_width="match_parent"
-        android:layout_height="46dp"
-        android:background="#EE0D6DE3"
-        android:elevation="15sp"
-        android:gravity="center"
-        android:text="Profile "
-        android:textColor="#FFFFFF"
-        android:textSize="24sp"
-        android:textStyle="bold" />
-
-    <de.hdodenhof.circleimageview.CircleImageView
+        <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profileimageview"
         android:layout_width="match_parent"
         android:layout_height="200dp"
@@ -30,17 +20,35 @@
         android:src="@drawable/logo"
        />
 
-    <TextView
-        android:id="@+id/textView83"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="name"
-        android:textColor="#3949AB"
-        android:textSize="24sp"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/textView83"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="CareerCruze"
+            android:textColor="#000000"
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
-    <ScrollView
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="#6A6868"
+            android:textStyle="bold"
+            android:textSize="17sp"
+            android:text="Job Title" />
+
+        <TextView
+            android:id="@+id/textView12"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#6A6868"
+            android:gravity="center"
+            android:text="Bio" />
+
+        <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -54,7 +62,7 @@
                 android:layout_height="match_parent"
                 android:layout_margin="20sp"
                 android:elevation="15sp"
-                app:cardCornerRadius="15sp">
+                app:cardCornerRadius="10sp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -68,7 +76,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Profile"
-                        android:textColor="#3949AB"
+                        android:textColor="#010F65"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
@@ -91,7 +99,7 @@
 
                         <TextView
                             android:id="@+id/textView85"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_weight="1"
@@ -119,7 +127,7 @@
 
                         <TextView
                             android:id="@+id/textView88"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_weight="1"
@@ -137,17 +145,44 @@
 
                         <TextView
                             android:id="@+id/textView91"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Given Name:"
+                            android:text="Years of Experience:"
                             android:textColor="#000000"
                             android:textSize="14sp"
                             android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/textView92"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="TextView"
+                            android:textSize="10sp" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10sp"
+                        android:layout_marginTop="10sp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textView41"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Skills:"
+                            android:textColor="#000000"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/textView42"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_weight="1"
@@ -162,7 +197,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10sp"
                         android:text="Support"
-                        android:textColor="#3949AB"
+                        android:textColor="#010F65"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
@@ -173,7 +208,7 @@
                         android:layout_marginLeft="10sp"
                         android:layout_marginTop="5sp"
                         android:checked="true"
-                        android:enabled="false"
+                        android:minHeight="48dp"
                         android:showText="true"
                         android:switchTextAppearance="@style/TextAppearance.AppCompat.Small"
                         android:text="Send Push Notifications"
