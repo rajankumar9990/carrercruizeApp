@@ -35,18 +35,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:text="Job Title"
             android:textColor="#6A6868"
-            android:textStyle="bold"
             android:textSize="17sp"
-            android:text="Job Title" />
+            android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/textView12"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#6A6868"
-            android:gravity="center"
-            android:text="Bio" />
+
 
         <ScrollView
         android:layout_width="match_parent"
@@ -92,7 +86,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="5sp"
-                            android:text="Your ID:"
+                            android:text="Email:"
                             android:textColor="#000000"
                             android:textSize="14sp"
                             android:textStyle="bold" />
@@ -105,7 +99,7 @@
                             android:layout_weight="1"
                             android:gravity="end"
                             android:text="TextView"
-                            android:textSize="10sp" />
+                            android:textSize="11sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -120,7 +114,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="5sp"
-                            android:text="Email :"
+                            android:text="Age:"
                             android:textColor="#000000"
                             android:textSize="14sp"
                             android:textStyle="bold" />
@@ -133,7 +127,7 @@
                             android:layout_weight="1"
                             android:gravity="end"
                             android:text="TextView"
-                            android:textSize="10sp" />
+                            android:textSize="11sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -160,7 +154,7 @@
                             android:layout_weight="1"
                             android:gravity="end"
                             android:text="TextView"
-                            android:textSize="10sp" />
+                            android:textSize="11sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -187,7 +181,35 @@
                             android:layout_weight="1"
                             android:gravity="end"
                             android:text="TextView"
-                            android:textSize="10sp" />
+                            android:textSize="11sp" />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10sp"
+                        android:layout_marginTop="10sp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textView16"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Bio:"
+                            android:textColor="#000000"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/textView12"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:textSize="11sp"
+                            android:text="Bio"
+                            android:textColor="#6A6868" />
                     </LinearLayout>
 
                     <TextView

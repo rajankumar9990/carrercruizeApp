@@ -68,8 +68,11 @@ public class signup_page extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(task.isSuccessful ()){
+                        Intent intent=new Intent ( signup_page.this,profilecreation.class );
+                        intent.putExtra ("email",emailop);
+                        startActivity (intent);
                         Toast.makeText (signup_page.this, "User Account Created!", Toast.LENGTH_SHORT).show ( );
-                        startActivity (new Intent ( signup_page.this,profilecreation.class ));
+
                     }else{
                         Toast.makeText (signup_page.this, "Registration Error!", Toast.LENGTH_SHORT).show ( );
                     }
