@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,25 +11,84 @@
     android:orientation="vertical">
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="200sp"
-
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="10sp"
+        android:layout_margin="10sp"
         >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/overlay"
+            android:layout_gravity="bottom"
+            android:background="#7AE1DFDF"
             android:orientation="vertical">
 
-            <androidx.appcompat.widget.SearchView
-                android:id="@+id/searchView"
+            <TextView
+                android:id="@+id/textView13"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:layout_margin="10sp"
-                android:background="#ffffff"
-                android:iconifiedByDefault="false"
-                android:queryHint="Search for items..." />
+                android:textColor="#535353"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:text="Good Morning" />
+            <TextView
+                android:id="@+id/textView14"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10sp"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                android:textSize="25sp"
+                android:text="Find Your" />
+            <TextView
+                android:id="@+id/textView15"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10sp"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                android:textSize="25sp"
+                android:text="Creative Job" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10sp"
+                android:orientation="horizontal">
+
+                <!-- SearchView -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:cardBackgroundColor="#000000"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="4dp"
+                    android:layout_margin="10sp">
+
+                    <androidx.appcompat.widget.SearchView
+                        android:id="@+id/searchView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#ffffff"
+                        app:queryHint="Search for items..."  />
+                </androidx.cardview.widget.CardView>
+
+                <!-- Filter Button -->
+                <ImageButton
+                    android:id="@+id/filterButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5sp"
+                    android:background="@drawable/round_button"
+                    android:padding="10dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_baseline_filter_alt_24"
+                    app:tint="#ffffff" />
+            </LinearLayout>
+
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
@@ -45,12 +105,21 @@
             <!-- Filter Section -->
 
             <!-- RecyclerView for Job Listings -->
+            <TextView
+                android:id="@+id/textView17"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15sp"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:text="Popular Jobs" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view_jobs"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@id/filter_layout"
-                android:layout_marginTop="16dp"
                 tools:listitem="@layout/jobadapter" />
 
         </LinearLayout>

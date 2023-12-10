@@ -30,97 +30,44 @@ import java.util.List;
 
 public class home_fragment extends Fragment {
     private RecyclerView recyclerView;
-    private joblistadapter jobAdapter;
+    private static  joblistadapter jobAdapter;
+    private static joblisting jobListings;
     private static final String API_URL = "https://careercruzefunction.azurewebsites.net/api/HttpTrigger1?";
-    private ArrayList<String> datelist;
-    ArrayList<String> locationlist;
-    ArrayList<String> descriptionlist;
-    ArrayList<String> salarylist;
-    ArrayList<String> jtitlelist;
+    private static final ArrayList<String> datelist = new ArrayList<> (  );
+    private static ArrayList<String> locationlist;
+    private static ArrayList<String> descriptionlist;
+    private static ArrayList<String> salarylist;
+    private static ArrayList<String> jtitlelist;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view= inflater.inflate (R.layout.fragment_home_fragment, container, false);
-        // Sample data
-        joblisting jobListings=new joblisting ();
-        jobListings.setSalarylist (salarylist);
-        jobListings.setDatelist (datelist);
-        jobListings.setJtitlelist (jtitlelist);
-        jobListings.setDescriptionlist (descriptionlist);
-        jobListings.setLocationlist (locationlist);
+        //working upon api....
+        // Execute the AsyncTask to make the HTTP request
+        new FetchDataTask().execute(API_URL);
+
         // Initialize RecyclerView and set the adapter
-        datelist=new ArrayList<> (  );
+//        datelist=new ArrayList<> (  );
         locationlist=new ArrayList<> (  );
         descriptionlist=new ArrayList<> (  );
         salarylist=new ArrayList<> (  );
         jtitlelist=new ArrayList<> (  );
 
+        jobListings=new joblisting ();
+
+
+
+
         recyclerView = view.findViewById (R.id.recycler_view_jobs);
-        jobAdapter = new joblistadapter (jobListings);
-        recyclerView.setLayoutManager(new LinearLayoutManager (getActivity ()));
-        recyclerView.setAdapter(jobAdapter);
+        if(salarylist.isEmpty ()) {
+            jobAdapter = new joblistadapter (jobListings);
+            recyclerView.setLayoutManager (new LinearLayoutManager (getActivity ( )));
+            recyclerView.setAdapter (jobAdapter);
+        }
 
-        //location spinner
-        Spinner locationspiner=view.findViewById (R.id.spinner_location);
-        List<String> locationList = new ArrayList<>();
-        locationList.add ("Location");
-        locationList.add("Sonipat");
-        locationList.add("Mumbai");
-        locationList.add ("New Delhi");
-        locationList.add("Pune");
-        // Add more cities as needed
 
-        // Populate the Spinner with the list of items
-        ArrayAdapter<String> locationAdapter = new ArrayAdapter<>(
-                requireContext(),
-                android.R.layout.simple_spinner_item,
-                locationList
-        );
-        locationAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        locationspiner.setAdapter (locationAdapter);
-
-        //salary spinner
-        Spinner salaryspiner=view.findViewById (R.id.spinner_salary);
-        List<String> salaryList = new ArrayList<>();
-        salaryList.add ("Salary");
-        salaryList.add("< 1Lakh>");
-        salaryList.add("1Lakh to 10Lakh");
-        salaryList.add ("> 10Lakh");
-        // Add more cities as needed
-
-        // Populate the Spinner with the list of items
-        ArrayAdapter<String> salaryAdapter = new ArrayAdapter<>(
-                requireContext(),
-                android.R.layout.simple_spinner_item,
-                salaryList
-        );
-        salaryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        salaryspiner.setAdapter (salaryAdapter);
-
-        //job spinner
-        Spinner jobspiner=view.findViewById (R.id.spinner_job_title);
-        List<String> jobList = new ArrayList<>();
-        jobList.add ("Job Title");
-        jobList.add("Data Scientist");
-        jobList.add("Android Dev");
-        jobList.add ("Web Dev");
-        jobList.add("Software Engineer");
-        // Add more cities as needed
-
-        // Populate the Spinner with the list of items
-        ArrayAdapter<String> jobAdapter = new ArrayAdapter<>(
-                requireContext(),
-                android.R.layout.simple_spinner_item,
-                jobList
-        );
-        jobAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        jobspiner.setAdapter (jobAdapter);
-
-        //working upon api....
-        // Execute the AsyncTask to make the HTTP request
-        new FetchDataTask().execute(API_URL);
 
 
         return view;
@@ -169,6 +116,7 @@ public class home_fragment extends Fragment {
                 JSONArray descArray = jsonResult.getJSONArray("Description");
                 JSONArray locationArray = jsonResult.getJSONArray("Location");
                 JSONArray salaryArray = jsonResult.getJSONArray("Salary");
+                JSONArray joarray=jsonResult.getJSONArray ("Title");
 
                 // Process each item
                 for (int i = 0; i < dateArray.length(); i++) {
@@ -176,7 +124,22 @@ public class home_fragment extends Fragment {
                     String desc = descArray.optString(i, "N/A");
                     String location = locationArray.optString(i, "N/A");
                     String salary = salaryArray.optString(i, "N/A");
+                    String jobtitle=joarray.optString (i,"N/A");
+                    datelist.add (date);
+                    descriptionlist.add (desc);
+                    locationlist.add (location);
+                    salarylist.add (salary);
+                    jtitlelist.add (jobtitle);
 
+                    if(!salarylist.isEmpty ()){
+                        jobListings.setSalarylist (salarylist);
+                        jobListings.setDatelist (datelist);
+                        jobListings.setJtitlelist (jtitlelist);
+                        jobListings.setLocationlist (locationlist);
+                        jobAdapter.showshimmer=false;
+                        // Notify the adapter that the dataset has changed
+                        jobAdapter.notifyDataSetChanged();
+                    }
 
                     // Perform actions with individual parameters (e.g., display in UI, log, etc.)
                     Log.d("API Result", "Date: " + date);

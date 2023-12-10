@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public class joblisting {
     ArrayList<String> datelist=new ArrayList<> (  );
     ArrayList<String> locationlist=new ArrayList<> (  );
-    ArrayList<String> descriptionlist=new ArrayList<> (  );
     ArrayList<String> salarylist=new ArrayList<> (  );
 
     public ArrayList<String> getDatelist() {
@@ -24,13 +23,6 @@ public class joblisting {
         this.locationlist = locationlist;
     }
 
-    public ArrayList<String> getDescriptionlist() {
-        return descriptionlist;
-    }
-
-    public void setDescriptionlist(ArrayList<String> descriptionlist) {
-        this.descriptionlist = descriptionlist;
-    }
 
     public ArrayList<String> getSalarylist() {
         return salarylist;

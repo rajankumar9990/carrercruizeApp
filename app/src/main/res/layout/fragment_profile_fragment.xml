@@ -60,7 +60,7 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="20sp"
+                android:layout_margin="10sp"
                 android:elevation="15sp"
                 app:cardCornerRadius="10sp">
 
@@ -103,7 +103,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_weight="1"
-                            android:gravity="center"
+                            android:gravity="end"
                             android:text="TextView"
                             android:textSize="10sp" />
                     </LinearLayout>
@@ -131,7 +131,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_weight="1"
-                            android:gravity="center"
+                            android:gravity="end"
                             android:text="TextView"
                             android:textSize="10sp" />
                     </LinearLayout>
@@ -145,9 +145,8 @@
 
                         <TextView
                             android:id="@+id/textView91"
-                            android:layout_width="0dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:text="Years of Experience:"
                             android:textColor="#000000"
                             android:textSize="14sp"
@@ -159,10 +158,11 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_weight="1"
-                            android:gravity="center"
+                            android:gravity="end"
                             android:text="TextView"
                             android:textSize="10sp" />
                     </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -172,9 +172,8 @@
 
                         <TextView
                             android:id="@+id/textView41"
-                            android:layout_width="0dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:text="Skills:"
                             android:textColor="#000000"
                             android:textSize="14sp"
@@ -186,7 +185,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_weight="1"
-                            android:gravity="center"
+                            android:gravity="end"
                             android:text="TextView"
                             android:textSize="10sp" />
                     </LinearLayout>
