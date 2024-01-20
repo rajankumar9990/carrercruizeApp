@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- filter_popup_layout.xml -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="#FFFFFF"
+    android:padding="10dp">
+
+    <!-- Sort by Date Posted -->
+    <ImageButton
+        android:id="@+id/imageView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        app:srcCompat="@drawable/ic_baseline_close_24" />
+
+    <CheckBox
+        android:id="@+id/checkSortDateNewlyFirst"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sort by Date Posted (Newly First)" />
+
+    <!-- Sort by Salary -->
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <!-- Salary Low to High -->
+        <RadioButton
+            android:id="@+id/radioSortSalaryLowToHigh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sort by Salary (Low to High)" />
+
+        <!-- Salary High to Low -->
+        <RadioButton
+            android:id="@+id/radioSortSalaryHighToLow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sort by Salary (High to Low)" />
+    </RadioGroup>
+
+    <!-- Apply Button -->
+    <Button
+        android:id="@+id/applyButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Apply" />
+</LinearLayout>

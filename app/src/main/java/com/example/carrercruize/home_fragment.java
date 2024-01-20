@@ -3,16 +3,24 @@ package com.example.carrercruize;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.ImageButton;
+import android.widget.PopupWindow;
+import android.widget.RadioButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -30,6 +38,7 @@ import java.util.List;
 
 public class home_fragment extends Fragment {
     private RecyclerView recyclerView;
+    private SearchView searchView;
     private static  joblistadapter jobAdapter;
     private static joblisting jobListings;
     private static final String API_URL = "https://careercruzefunction.azurewebsites.net/api/HttpTrigger1?";
@@ -38,12 +47,20 @@ public class home_fragment extends Fragment {
     private static ArrayList<String> descriptionlist;
     private static ArrayList<String> salarylist;
     private static ArrayList<String> jtitlelist;
-
+    private static  ArrayList<String> companylist=new ArrayList<> (  );
+    private static ArrayList<String> linklists=new ArrayList<> (  );
+    private static ImageButton filterButton;
+    private PopupWindow filterPopup;
+    TextView relodbtn;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view= inflater.inflate (R.layout.fragment_home_fragment, container, false);
+        searchView=view.findViewById (R.id.searchView);
+        filterButton=view.findViewById (R.id.filterButton);
+        relodbtn=view.findViewById (R.id.textView19);
+        filterButton.setOnClickListener (v-> showpopup());
         //working upon api....
         // Execute the AsyncTask to make the HTTP request
         new FetchDataTask().execute(API_URL);
@@ -56,22 +73,82 @@ public class home_fragment extends Fragment {
         jtitlelist=new ArrayList<> (  );
 
         jobListings=new joblisting ();
-
-
-
+        jobAdapter = new joblistadapter (jobListings);
 
         recyclerView = view.findViewById (R.id.recycler_view_jobs);
-        if(salarylist.isEmpty ()) {
-            jobAdapter = new joblistadapter (jobListings);
-            recyclerView.setLayoutManager (new LinearLayoutManager (getActivity ( )));
-            recyclerView.setAdapter (jobAdapter);
-        }
+        recyclerView.setLayoutManager (new LinearLayoutManager (getActivity ( )));
+        recyclerView.setAdapter (jobAdapter);
+        //Relod btn
+        relodbtn.setOnClickListener (new View.OnClickListener ( ) {
+            @Override
+            public void onClick(View view) {
+                jobAdapter.setdata (jobListings);
+                jobAdapter.notifyDataSetChanged();
+            }
+        });
+        //searchView implementation.............
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // Handle the submission of the search query (if needed)
+                jobAdapter.getFilter ( ).filter (query);
+                Log.d ("no of items present:",String.valueOf (jobAdapter.getItemCount ()));
+                return true;
+            }
 
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                // Filter your data based on the search query and update the RecyclerView
 
+                return true;
+            }
 
-
+        });
         return view;
+    }
+    private void showpopup(){
+        View popupView = LayoutInflater.from(getActivity ().getApplicationContext ()).inflate(R.layout.filter_popup, null);
 
+        // Initialize the PopupWindow
+        filterPopup = new PopupWindow (
+                popupView,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                true
+        );
+
+        // Set the animation style (optional)
+        filterPopup.setAnimationStyle(R.anim.fade_in);
+
+        // Set up button click listener in the popup
+        Button applyButton = popupView.findViewById(R.id.applyButton);
+        CheckBox sortbydate=popupView.findViewById (R.id.checkSortDateNewlyFirst);
+        RadioButton sortlth=popupView.findViewById (R.id.radioSortSalaryLowToHigh);
+        RadioButton sorthtl=popupView.findViewById (R.id.radioSortSalaryHighToLow);
+        ImageButton close=popupView.findViewById (R.id.imageView3);
+        close.setOnClickListener (v->filterPopup.dismiss ());
+        applyButton.setOnClickListener(v -> {
+            // Handle the apply button click
+            // Apply your filter logic here
+            if(sorthtl.isChecked ()){
+                jobAdapter.sortbySalary(false);
+            }else if (sortlth.isChecked ()){
+                jobAdapter.sortbySalary (true);
+            }if(sortbydate.isChecked ()){
+                jobAdapter.sortbyDate ();
+            }
+            filterPopup.dismiss();
+        });
+
+        // Show the popup at a specific location relative to the filter button
+        int[] location = new int[2];
+        filterButton.getLocationOnScreen(location);
+        filterPopup.showAtLocation(filterButton, Gravity.TOP | Gravity.START, location[0], location[1]);
+
+        // Set up dismiss listener to handle dismissal
+        filterPopup.setOnDismissListener(() -> {
+            // Perform actions when the popup is dismissed (if needed)
+        });
     }
     private static class FetchDataTask extends AsyncTask<String, Void, String> {
         @Override
@@ -117,6 +194,8 @@ public class home_fragment extends Fragment {
                 JSONArray locationArray = jsonResult.getJSONArray("Location");
                 JSONArray salaryArray = jsonResult.getJSONArray("Salary");
                 JSONArray joarray=jsonResult.getJSONArray ("Title");
+                JSONArray linksarray=jsonResult.getJSONArray ("Link");
+                JSONArray comparray= jsonResult.getJSONArray ("Company" );
 
                 // Process each item
                 for (int i = 0; i < dateArray.length(); i++) {
@@ -125,17 +204,23 @@ public class home_fragment extends Fragment {
                     String location = locationArray.optString(i, "N/A");
                     String salary = salaryArray.optString(i, "N/A");
                     String jobtitle=joarray.optString (i,"N/A");
+                    String link=linksarray.optString (i,"N/A");
+                    String cp=comparray.optString (i,"N/A");
                     datelist.add (date);
                     descriptionlist.add (desc);
                     locationlist.add (location);
                     salarylist.add (salary);
                     jtitlelist.add (jobtitle);
+                    linklists.add (link);
+                    companylist.add (cp);
 
                     if(!salarylist.isEmpty ()){
                         jobListings.setSalarylist (salarylist);
                         jobListings.setDatelist (datelist);
                         jobListings.setJtitlelist (jtitlelist);
                         jobListings.setLocationlist (locationlist);
+                        jobListings.setLinklists (linklists);
+                        jobListings.setCompanylist (companylist);
                         jobAdapter.showshimmer=false;
                         // Notify the adapter that the dataset has changed
                         jobAdapter.notifyDataSetChanged();

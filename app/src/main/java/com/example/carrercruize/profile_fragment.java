@@ -15,16 +15,23 @@ import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 
 public class profile_fragment extends Fragment {
     TextView emailview,ageview,expview,skillview,nameview,titleview,bioview;
     String emailvalue,agevalue,expvalue,skillvalue;
+    CircleImageView imageView;
+    FirebaseAuth mAuth;
+    FirebaseUser currentUser;
     DatabaseReference databaseReference= FirebaseDatabase.getInstance ().getReference ().child ("userProfile");
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,12 +44,14 @@ public class profile_fragment extends Fragment {
         ageview=view.findViewById (R.id.textView88);
         expview=view.findViewById (R.id.textView92);
         skillview=view.findViewById (R.id.textView42);
+        imageView=view.findViewById (R.id.profileimageview);
+        mAuth=FirebaseAuth.getInstance ();
+        currentUser=mAuth.getCurrentUser ();
         // Set status bar color
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            setStatusBarColor(0xFF04147A);
+            setStatusBarColor(Color.parseColor("#020D55"));
         }
-        String uniqueid=uniqueidGenerator.getUniqueId (view.getContext ());
-        databaseReference.child (uniqueid).addListenerForSingleValueEvent (valulisner);
+        databaseReference.child (currentUser.getUid ()).addListenerForSingleValueEvent (valulisner);
         return view;
 
     }

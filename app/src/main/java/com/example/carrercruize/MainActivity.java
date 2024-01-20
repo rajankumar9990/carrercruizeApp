@@ -20,6 +20,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
     GoogleSignInClient gsc;
@@ -30,7 +31,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Button signup= findViewById(R.id.button);
-        SignInButton signinbygoogle=findViewById(R.id.button2);
+        Button loginbtn=findViewById (R.id.button2);
+       // SignInButton signinbygoogle=findViewById(R.id.button2);
         applySlideInAnimationToButton (R.id.textView4);
         applySlideInAnimationToButton (R.id.textView5);
         applySlideInAnimationToButton (R.id.textView6);
@@ -49,10 +51,17 @@ public class MainActivity extends AppCompatActivity {
         if(aat!=null){
             startActivity (new Intent ( MainActivity.this,dashboard.class ));
         }
-        signinbygoogle.setOnClickListener (new View.OnClickListener ( ) {
+//        signinbygoogle.setOnClickListener (new View.OnClickListener ( ) {
+//            @Override
+//            public void onClick(View v) {
+//                signin();
+//            }
+//        });
+        //login button..............
+        loginbtn.setOnClickListener (new View.OnClickListener ( ) {
             @Override
-            public void onClick(View v) {
-                signin();
+            public void onClick(View view) {
+                startActivity (new Intent ( MainActivity.this,login_page.class ));
             }
         });
 

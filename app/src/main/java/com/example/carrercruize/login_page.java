@@ -15,6 +15,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class login_page extends AppCompatActivity {
     FirebaseAuth mAuth;
@@ -28,6 +29,11 @@ public class login_page extends AppCompatActivity {
         username=findViewById(R.id.usernameEditText);
         password=findViewById(R.id.passwordEditText);
         mAuth=FirebaseAuth.getInstance ();
+        FirebaseUser currentuser=mAuth.getCurrentUser ();
+        if(currentuser!=null){
+
+            startActivity (new Intent ( login_page.this,dashboard.class ));
+        }
         loginbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

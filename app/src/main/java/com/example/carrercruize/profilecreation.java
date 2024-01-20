@@ -14,8 +14,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -100,12 +103,20 @@ public class profilecreation extends AppCompatActivity {
                     userProfile1.setSkillvalue (skillvalue);
                     userProfile1.setTitlevalue (titlevalue);
                     userProfile1.setExpvalue (expvalue);
-                    String uniqueid=uniqueidGenerator.getUniqueId (getApplicationContext ());
-                    databaseReference.child (uniqueid).setValue (userProfile1).addOnCompleteListener (new OnCompleteListener<Void> ( ) {
+                    FirebaseUser currentUser =FirebaseAuth.getInstance ().getCurrentUser ();
+                    assert currentUser != null;
+                    databaseReference.child (currentUser.getUid ()).setValue (userProfile1).addOnCompleteListener (new OnCompleteListener<Void> ( ) {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             Toast.makeText (profilecreation.this, "Signup Completed!!!", Toast.LENGTH_SHORT).show ( );
                             startActivity (new Intent ( profilecreation.this,dashboard.class ));
+                            finish ();
+                        }
+                    }).addOnFailureListener (new OnFailureListener ( ) {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText (profilecreation.this, "Process not completed!\n Close the app and restart", Toast.LENGTH_SHORT).show ( );
+                            finishAffinity ();
                         }
                     });
 

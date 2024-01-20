@@ -16,6 +16,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.SignInMethodQueryResult;
 
 public class signup_page extends AppCompatActivity {
     FirebaseAuth mAuth;
@@ -42,11 +43,34 @@ public class signup_page extends AppCompatActivity {
         signupbtn.setOnClickListener (new View.OnClickListener ( ) {
             @Override
             public void onClick(View v) {
-                createuser();
+                checkIfUserExists (email.getText ().toString ());
 
             }
         });
     }
+    private void checkIfUserExists(String email) {
+        // Use FirebaseAuth to check if a user with the given email exists
+        mAuth.fetchSignInMethodsForEmail(email)
+                .addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
+                        if (task.isSuccessful()) {
+                            SignInMethodQueryResult result = task.getResult();
+                            if (result != null && result.getSignInMethods() != null
+                                    && !result.getSignInMethods().isEmpty()) {
+                                // User with this email already exists
+                                Toast.makeText (signup_page.this, "User with this email already exists", Toast.LENGTH_SHORT).show ( );
+                            } else {
+                                createuser ();
+                            }
+                        } else {
+                            // An error occurred while checking for user existence
+                            Toast.makeText (signup_page.this, "Error!", Toast.LENGTH_SHORT).show ( );
+                        }
+                    }
+                });
+    }
+
     private void createuser(){
         String emailop=email.getText ().toString ();
         String passop=pass.getText ().toString ();
@@ -54,10 +78,10 @@ public class signup_page extends AppCompatActivity {
         if(TextUtils.isEmpty (emailop)){
             email.setError ("email can't be empty");
             email.requestFocus ();
-        }else if(TextUtils.isEmpty (passop)){
-            pass.setError ("password can't be empty");
+        }else if(TextUtils.isEmpty (passop) | passop.length ()<=6){
+            pass.setError ("password length can't be <7");
             pass.requestFocus ();
-        }else if(TextUtils.isEmpty (confpassop)){
+        }else if(TextUtils.isEmpty (confpassop) ){
             confirmpass.setError ("can't be empty");
             confirmpass.requestFocus ();
         }else if(!passop.equals (confpassop)){

@@ -21,7 +21,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="#04147A"
+            android:background="#020D55"
             app:popupTheme="@style/Widget.AppCompat.PopupMenu">
 
             <TextView
@@ -29,6 +29,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:padding="5sp"
                 android:text="CareerCruze"
                 android:textColor="@android:color/white"
                 android:textSize="18sp"
@@ -66,7 +67,7 @@
         android:visibility="visible"
         app:elevation="15sp"
         app:itemIconSize="25dp"
-        app:itemIconTint="#051EBC"
+        app:itemIconTint="#010832"
         app:itemTextAppearanceActive="@style/TextAppearance.AppCompat.Body2"
         app:itemTextAppearanceInactive="@style/Animation.Design.BottomSheetDialog"
         app:itemTextColor="#000000"

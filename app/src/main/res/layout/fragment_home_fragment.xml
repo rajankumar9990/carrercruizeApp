@@ -73,7 +73,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="#ffffff"
-                        app:queryHint="Search for items..."  />
+                        app:queryHint="Search by company or location"
+                        />
                 </androidx.cardview.widget.CardView>
 
                 <!-- Filter Button -->
@@ -105,21 +106,34 @@
             <!-- Filter Section -->
 
             <!-- RecyclerView for Job Listings -->
+
             <TextView
                 android:id="@+id/textView17"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="15sp"
+                android:layout_marginTop="5sp"
+                android:text="Popular Jobs"
                 android:textColor="#000000"
-                android:textStyle="bold"
                 android:textSize="18sp"
-                android:text="Popular Jobs" />
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textView19"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#03168E"
+                android:textStyle="bold"
+                android:layout_gravity="end"
+                android:drawableRight="@drawable/ic_baseline_autorenew_24"
+                android:layout_marginRight="10sp"
+                android:text="Reload" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view_jobs"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="#8C8B8B"
                 tools:listitem="@layout/jobadapter" />
 
         </LinearLayout>
