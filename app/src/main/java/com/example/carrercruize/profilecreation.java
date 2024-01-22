@@ -103,6 +103,7 @@ public class profilecreation extends AppCompatActivity {
                     userProfile1.setSkillvalue (skillvalue);
                     userProfile1.setTitlevalue (titlevalue);
                     userProfile1.setExpvalue (expvalue);
+                    userProfile1.setImagevalue (" ");
                     FirebaseUser currentUser =FirebaseAuth.getInstance ().getCurrentUser ();
                     assert currentUser != null;
                     databaseReference.child (currentUser.getUid ()).setValue (userProfile1).addOnCompleteListener (new OnCompleteListener<Void> ( ) {

@@ -6,6 +6,15 @@ public class userProfile {
     String agevalue;
     String titlevalue;
 
+    public String getImagevalue() {
+        return imagevalue;
+    }
+
+    public void setImagevalue(String imagevalue) {
+        this.imagevalue = imagevalue;
+    }
+
+    String imagevalue;
     public String getNamevalue() {
         return namevalue;
     }

@@ -86,7 +86,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/button"
                 android:text="Login"
-
+                android:textStyle="bold"
                 android:textColor="#ffffff" />
 
         </LinearLayout>

@@ -35,6 +35,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class home_fragment extends Fragment {
     private RecyclerView recyclerView;
@@ -49,6 +50,9 @@ public class home_fragment extends Fragment {
     private static ArrayList<String> jtitlelist;
     private static  ArrayList<String> companylist=new ArrayList<> (  );
     private static ArrayList<String> linklists=new ArrayList<> (  );
+    private static  ArrayList<String> experienceList=new ArrayList<> (  );
+    private static  ArrayList<ArrayList<String>> tagsList= new ArrayList<> ( );
+    private static SharedPreferencesManager preferencesManager;
     private static ImageButton filterButton;
     private PopupWindow filterPopup;
     TextView relodbtn;
@@ -61,9 +65,8 @@ public class home_fragment extends Fragment {
         filterButton=view.findViewById (R.id.filterButton);
         relodbtn=view.findViewById (R.id.textView19);
         filterButton.setOnClickListener (v-> showpopup());
-        //working upon api....
-        // Execute the AsyncTask to make the HTTP request
-        new FetchDataTask().execute(API_URL);
+
+
 
         // Initialize RecyclerView and set the adapter
 //        datelist=new ArrayList<> (  );
@@ -78,6 +81,23 @@ public class home_fragment extends Fragment {
         recyclerView = view.findViewById (R.id.recycler_view_jobs);
         recyclerView.setLayoutManager (new LinearLayoutManager (getActivity ( )));
         recyclerView.setAdapter (jobAdapter);
+        //working upon api....
+        // Execute the AsyncTask to make the HTTP request
+        preferencesManager= new SharedPreferencesManager(getContext ());
+        // Check if an update is needed (e.g., every 24 hours)
+        long updateIntervalMillis = TimeUnit.MINUTES.toMillis(5);
+        if (preferencesManager.shouldUpdateData(updateIntervalMillis) | preferencesManager.getJobListing ()==null) {
+            // Perform the update by fetching new data from the API
+            // Update the JobListing object and save it
+            new FetchDataTask().execute(API_URL);
+        }
+        else{
+            jobListings=preferencesManager.getJobListing ();
+            Log.d("Retrieved data",String.valueOf (jobListings.getCompanylist ().size ()));
+            jobAdapter.setdata (jobListings);
+            jobAdapter.showshimmer=false;
+            jobAdapter.notifyDataSetChanged ();
+        }
         //Relod btn
         relodbtn.setOnClickListener (new View.OnClickListener ( ) {
             @Override
@@ -106,6 +126,8 @@ public class home_fragment extends Fragment {
         });
         return view;
     }
+
+
     private void showpopup(){
         View popupView = LayoutInflater.from(getActivity ().getApplicationContext ()).inflate(R.layout.filter_popup, null);
 
@@ -125,6 +147,7 @@ public class home_fragment extends Fragment {
         CheckBox sortbydate=popupView.findViewById (R.id.checkSortDateNewlyFirst);
         RadioButton sortlth=popupView.findViewById (R.id.radioSortSalaryLowToHigh);
         RadioButton sorthtl=popupView.findViewById (R.id.radioSortSalaryHighToLow);
+        RadioButton sortexp=popupView.findViewById (R.id.radioSortbyexperience);
         ImageButton close=popupView.findViewById (R.id.imageView3);
         close.setOnClickListener (v->filterPopup.dismiss ());
         applyButton.setOnClickListener(v -> {
@@ -136,6 +159,8 @@ public class home_fragment extends Fragment {
                 jobAdapter.sortbySalary (true);
             }if(sortbydate.isChecked ()){
                 jobAdapter.sortbyDate ();
+            }else if(sortexp.isChecked ()){
+                jobAdapter.sortbyExperience ();
             }
             filterPopup.dismiss();
         });
@@ -196,7 +221,9 @@ public class home_fragment extends Fragment {
                 JSONArray joarray=jsonResult.getJSONArray ("Title");
                 JSONArray linksarray=jsonResult.getJSONArray ("Link");
                 JSONArray comparray= jsonResult.getJSONArray ("Company" );
-
+                JSONArray exparray=jsonResult.getJSONArray ("Experience");
+                JSONArray tagsarrasy=jsonResult.getJSONArray ("Tags");
+                Log.d ("no of tags",String.valueOf (tagsarrasy.length ()));
                 // Process each item
                 for (int i = 0; i < dateArray.length(); i++) {
                     String date = dateArray.optString(i, "N/A");
@@ -206,6 +233,12 @@ public class home_fragment extends Fragment {
                     String jobtitle=joarray.optString (i,"N/A");
                     String link=linksarray.optString (i,"N/A");
                     String cp=comparray.optString (i,"N/A");
+                    String expstr=exparray.optString (i,"N/A");
+                    ArrayList<String> tagsTobeAdded=new ArrayList<> (  );
+                    JSONArray innerArray=tagsarrasy.getJSONArray (i);
+                    for (int j=0;j<innerArray.length ();j++){
+                        tagsTobeAdded.add (innerArray.optString (j,"N/A"));
+                    }
                     datelist.add (date);
                     descriptionlist.add (desc);
                     locationlist.add (location);
@@ -213,7 +246,8 @@ public class home_fragment extends Fragment {
                     jtitlelist.add (jobtitle);
                     linklists.add (link);
                     companylist.add (cp);
-
+                    experienceList.add (expstr);
+                    tagsList.add (tagsTobeAdded);
                     if(!salarylist.isEmpty ()){
                         jobListings.setSalarylist (salarylist);
                         jobListings.setDatelist (datelist);
@@ -221,6 +255,10 @@ public class home_fragment extends Fragment {
                         jobListings.setLocationlist (locationlist);
                         jobListings.setLinklists (linklists);
                         jobListings.setCompanylist (companylist);
+                        jobListings.setTagsList (tagsList);
+                        jobListings.setExperienceList (experienceList);
+                        preferencesManager.saveJobListing (jobListings);//saving data in sharedPrefernces
+                        Log.d("Data saved!",String.valueOf (preferencesManager.getJobListing ().getCompanylist ().size ()));
                         jobAdapter.showshimmer=false;
                         // Notify the adapter that the dataset has changed
                         jobAdapter.notifyDataSetChanged();

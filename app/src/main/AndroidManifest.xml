@@ -3,7 +3,7 @@
     package="com.example.carrercruize">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <application
         android:allowBackup="true"
         android:icon="@drawable/logo"
@@ -11,6 +11,9 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+        <activity
+            android:name=".verifyOtp"
+            android:exported="false" />
         <activity
             android:name=".jobDescription_page"
             android:exported="false" />

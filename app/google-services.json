@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "945585386439",
+    "firebase_url": "https://careercruze-1f3ef-default-rtdb.firebaseio.com",
     "project_id": "careercruze-1f3ef",
     "storage_bucket": "careercruze-1f3ef.appspot.com"
   },
@@ -12,7 +13,12 @@
           "package_name": "com.example.carrercruize"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "945585386439-7q8bi6pv0l8kaprgo8m4esjga61ojrh6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAKq2H6o6qCfadl2NOwl1pjK2TCHzJOxN0"
@@ -20,7 +26,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "945585386439-7q8bi6pv0l8kaprgo8m4esjga61ojrh6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

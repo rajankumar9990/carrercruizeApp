@@ -9,6 +9,25 @@ public class joblisting {
     ArrayList<String> linklists=new ArrayList<> (  );
     ArrayList<String> companylist=new ArrayList<> (  );
     ArrayList<String> jtitlelist=new ArrayList<> (  );
+    ArrayList<ArrayList<String>> tagsList=new ArrayList<> (  );
+    ArrayList<String>experienceList=new ArrayList<> (  );
+
+    public ArrayList<String> getExperienceList() {
+        return experienceList;
+    }
+
+    public void setExperienceList(ArrayList<String> experienceList) {
+        this.experienceList = experienceList;
+    }
+
+    public ArrayList<ArrayList<String>> getTagsList() {
+        return tagsList;
+    }
+
+    public void setTagsList(ArrayList<ArrayList<String>> tagsList) {
+        this.tagsList = tagsList;
+    }
+
     public ArrayList<String> getCompanylist() {
         return companylist;
     }

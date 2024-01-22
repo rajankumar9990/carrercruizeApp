@@ -3,6 +3,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -12,10 +13,11 @@
     <!-- Sort by Date Posted -->
     <ImageButton
         android:id="@+id/imageView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="35sp"
+        android:layout_height="40sp"
         android:layout_gravity="end"
-        app:srcCompat="@drawable/ic_baseline_close_24" />
+        android:background="#E82945FD"
+        android:src="@drawable/ic_baseline_close_24" />
 
     <CheckBox
         android:id="@+id/checkSortDateNewlyFirst"
@@ -41,6 +43,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Sort by Salary (High to Low)" />
+        <RadioButton
+            android:id="@+id/radioSortbyexperience"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="sort by experience(freshers level)"/>
     </RadioGroup>
 
     <!-- Apply Button -->
@@ -48,5 +55,7 @@
         android:id="@+id/applyButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#E82945FD"
+        android:textColor="#ffffff"
         android:text="Apply" />
 </LinearLayout>

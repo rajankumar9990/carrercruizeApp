@@ -41,35 +41,30 @@ public class joblistadapter extends RecyclerView.Adapter<joblistadapter.ViewHold
     public void setdata(joblisting joblisting1){
         this.joblistings=joblisting1;
     }
-    // Add a method for sorting salary in descending order
-//    public void sortSalaryHighToLow() {
-//        Comparator<String> salaryComparator = new Comparator<String> () {
-//            @Override
-//            public int compare(String salary1, String salary2) {
-//                // Assuming salaries are in the format "USD 50,000" or similar
-//                // You may need to modify this based on your actual salary format
-//                int salaryValue1 = parseSalary(salary1);
-//                int salaryValue2 = parseSalary(salary2);
-//
-//                // Sort in descending order
-//                return Integer.compare(salaryValue2, salaryValue1);
-//            }
-//
-//            private int parseSalary(String salary) {
-//                // Implement logic to extract the numeric value from the salary string
-//                // This is a simplified example, you may need to adjust based on your actual data
-//                String numericValue = salary.replaceAll("[^0-9]", "");
-//                return Integer.parseInt(numericValue);
-//            }
-//        };
-//        if (!showshimmer & isFiltered) {
-//            Collections.sort(joblistings.getSalarylist(), salaryComparator);
-//            notifyDataSetChanged();
-//        }else if(!showshimmer & !isFiltered){
-//            Collections.sort(filteredjoblist.getSalarylist(), salaryComparator);
-//            notifyDataSetChanged();
-//        }
-//    }
+    //sort by experience
+    public void sortbyExperience() {
+        // Create a list of indices to maintain the original order
+        ArrayList<Integer> indices = new ArrayList<>();
+        for (int i = 0; i < joblistings.getExperienceList ().size(); i++) {
+            indices.add(i);
+        }
+
+        // Sort the indices based on the salary array
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N ) {
+            Collections.sort(indices, Comparator.comparing (joblistings.getExperienceList ()::get));
+        }
+
+        // Rearrange all arrays based on the sorted indices
+        joblistings.datelist = rearrangeArray(joblistings.datelist, indices);
+        joblistings.locationlist = rearrangeArray(joblistings.locationlist, indices);
+        joblistings.salarylist = rearrangeArray(joblistings.salarylist, indices);
+        joblistings.linklists = rearrangeArray(joblistings.linklists, indices);
+        joblistings.companylist = rearrangeArray(joblistings.companylist, indices);
+        joblistings.jtitlelist = rearrangeArray(joblistings.jtitlelist, indices);
+        joblistings.experienceList=rearrangeArray (joblistings.getExperienceList (),indices);
+        joblistings.tagsList=rearrangeArrayofArray (joblistings.getTagsList (),indices);
+        notifyDataSetChanged ();
+    }
     public void sortbyDate() {
         // Create a list of indices to maintain the original order
         ArrayList<Integer> indices = new ArrayList<>();
@@ -120,6 +115,13 @@ public class joblistadapter extends RecyclerView.Adapter<joblistadapter.ViewHold
     // Helper method to rearrange an ArrayList based on indices
     private static ArrayList<String> rearrangeArray(ArrayList<String> original, ArrayList<Integer> indices) {
         ArrayList<String> rearranged = new ArrayList<>(original.size());
+        for (int index : indices) {
+            rearranged.add(original.get(index));
+        }
+        return rearranged;
+    }
+    private static ArrayList<ArrayList<String>> rearrangeArrayofArray(ArrayList<ArrayList<String>> original, ArrayList<Integer> indices) {
+        ArrayList<ArrayList<String>> rearranged = new ArrayList<>(original.size());
         for (int index : indices) {
             rearranged.add(original.get(index));
         }

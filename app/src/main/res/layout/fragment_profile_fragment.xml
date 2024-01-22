@@ -26,6 +26,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="CareerCruze"
+            android:drawableEnd="@drawable/ic_baseline_edit_24"
             android:textColor="#000000"
             android:textSize="24sp"
             android:textStyle="bold" />
@@ -36,6 +37,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="Job Title"
+            android:drawableEnd="@drawable/ic_baseline_edit_24"
             android:textColor="#6A6868"
             android:textSize="17sp"
             android:textStyle="bold" />
@@ -126,8 +128,10 @@
                             android:layout_gravity="center"
                             android:layout_weight="1"
                             android:gravity="end"
+                            android:drawableEnd="@drawable/ic_baseline_edit_24"
                             android:text="TextView"
-                            android:textSize="11sp" />
+                            android:drawablePadding="5sp"
+                            android:textSize="14sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -154,7 +158,9 @@
                             android:layout_weight="1"
                             android:gravity="end"
                             android:text="TextView"
-                            android:textSize="11sp" />
+                            android:drawablePadding="5sp"
+                            android:drawableEnd="@drawable/ic_baseline_edit_24"
+                            android:textSize="14sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -181,7 +187,9 @@
                             android:layout_weight="1"
                             android:gravity="end"
                             android:text="TextView"
-                            android:textSize="11sp" />
+                            android:drawablePadding="5sp"
+                            android:drawableEnd="@drawable/ic_baseline_edit_24"
+                            android:textSize="14sp" />
                     </LinearLayout>
 
 
@@ -207,8 +215,10 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="end"
-                            android:textSize="11sp"
+                            android:drawableEnd="@drawable/ic_baseline_edit_24"
+                            android:textSize="14sp"
                             android:text="Bio"
+                            android:drawablePadding="5sp"
                             android:textColor="#6A6868" />
                     </LinearLayout>
 

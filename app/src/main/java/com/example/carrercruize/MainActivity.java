@@ -21,11 +21,12 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
     GoogleSignInClient gsc;
     GoogleSignInOptions gso;
-
+    FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this,signup_page.class));
+                startActivity(new Intent(MainActivity.this,verifyOtp.class));
             }
         });
 
@@ -49,6 +50,11 @@ public class MainActivity extends AppCompatActivity {
         gsc= GoogleSignIn.getClient (this,gso);
         GoogleSignInAccount aat=GoogleSignIn.getLastSignedInAccount (this);
         if(aat!=null){
+            startActivity (new Intent ( MainActivity.this,dashboard.class ));
+        }
+        mAuth=FirebaseAuth.getInstance ();
+        FirebaseUser currentuser=mAuth.getCurrentUser ();
+        if(currentuser!=null){
             startActivity (new Intent ( MainActivity.this,dashboard.class ));
         }
 //        signinbygoogle.setOnClickListener (new View.OnClickListener ( ) {

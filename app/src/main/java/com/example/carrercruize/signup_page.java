@@ -14,8 +14,11 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.SignInMethodQueryResult;
 
 public class signup_page extends AppCompatActivity {
@@ -88,20 +91,43 @@ public class signup_page extends AppCompatActivity {
             Toast.makeText (this, "Passwords don't match", Toast.LENGTH_SHORT).show ( );
         }
         else{
-            mAuth.createUserWithEmailAndPassword (emailop,passop).addOnCompleteListener (new OnCompleteListener<AuthResult> ( ) {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if(task.isSuccessful ()){
-                        Intent intent=new Intent ( signup_page.this,profilecreation.class );
-                        intent.putExtra ("email",emailop);
-                        startActivity (intent);
-                        Toast.makeText (signup_page.this, "User Account Created!", Toast.LENGTH_SHORT).show ( );
+            FirebaseUser currentUser=mAuth.getCurrentUser ();
+            if(currentUser!=null){
+                AuthCredential emailCredential = EmailAuthProvider.getCredential(emailop,passop);
+                currentUser.linkWithCredential (emailCredential).addOnCompleteListener (new OnCompleteListener<AuthResult> ( ) {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Email credential successfully linked to the account
+                            Intent intent=new Intent ( signup_page.this,profilecreation.class );
+                            intent.putExtra ("email",emailop);
+                            intent.putExtra ("mobile",currentUser.getPhoneNumber ());
+                            startActivity (intent);
+                            Toast.makeText(signup_page.this, "Email Linked Successfully", Toast.LENGTH_SHORT).show();
+                            finish ();
+                        } else {
+                            // If linking fails, display a message to the user.
+                            Toast.makeText(signup_page.this, "Linking Email Failed...\nTry with different credentials...", Toast.LENGTH_SHORT).show();
 
-                    }else{
-                        Toast.makeText (signup_page.this, "Registration Error!", Toast.LENGTH_SHORT).show ( );
+                        }
                     }
-                }
-            });
+                });
+            }else {
+                Toast.makeText (this, "Please verify Mobile No.", Toast.LENGTH_SHORT).show ( );
+                startActivity (new Intent ( signup_page.this,verifyOtp.class ));
+            }
+//            mAuth.createUserWithEmailAndPassword (emailop,passop).addOnCompleteListener (new OnCompleteListener<AuthResult> ( ) {
+//                @Override
+//                public void onComplete(@NonNull Task<AuthResult> task) {
+//                    if(task.isSuccessful ()){
+//
+//                        Toast.makeText (signup_page.this, "User Account Created!", Toast.LENGTH_SHORT).show ( );
+//
+//                    }else{
+//                        Toast.makeText (signup_page.this, "Registration Error!", Toast.LENGTH_SHORT).show ( );
+//                    }
+//                }
+//            });
         }
     }
 }

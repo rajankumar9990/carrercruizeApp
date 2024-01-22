@@ -6,16 +6,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.TextureView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.PhoneAuthCredential;
+import com.google.firebase.auth.PhoneAuthProvider;
 
 public class login_page extends AppCompatActivity {
     FirebaseAuth mAuth;
@@ -31,9 +36,9 @@ public class login_page extends AppCompatActivity {
         mAuth=FirebaseAuth.getInstance ();
         FirebaseUser currentuser=mAuth.getCurrentUser ();
         if(currentuser!=null){
-
             startActivity (new Intent ( login_page.this,dashboard.class ));
         }
+
         loginbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -65,4 +70,5 @@ public class login_page extends AppCompatActivity {
             });
         }
     }
+
 }
