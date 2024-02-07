@@ -11,6 +11,15 @@ public class joblisting {
     ArrayList<String> jtitlelist=new ArrayList<> (  );
     ArrayList<ArrayList<String>> tagsList=new ArrayList<> (  );
     ArrayList<String>experienceList=new ArrayList<> (  );
+    ArrayList<String> descriptionList=new ArrayList<> (  );
+
+    public ArrayList<String> getDescriptionList() {
+        return descriptionList;
+    }
+
+    public void setDescriptionList(ArrayList<String> descriptionList) {
+        this.descriptionList = descriptionList;
+    }
 
     public ArrayList<String> getExperienceList() {
         return experienceList;

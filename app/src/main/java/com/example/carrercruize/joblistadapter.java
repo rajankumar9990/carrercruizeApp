@@ -2,6 +2,7 @@ package com.example.carrercruize;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
@@ -11,19 +12,27 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.Firebase;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 
 public class joblistadapter extends RecyclerView.Adapter<joblistadapter.ViewHolder> {
     private joblisting joblistings;
@@ -63,6 +72,7 @@ public class joblistadapter extends RecyclerView.Adapter<joblistadapter.ViewHold
         joblistings.jtitlelist = rearrangeArray(joblistings.jtitlelist, indices);
         joblistings.experienceList=rearrangeArray (joblistings.getExperienceList (),indices);
         joblistings.tagsList=rearrangeArrayofArray (joblistings.getTagsList (),indices);
+        joblistings.descriptionList=rearrangeArray (joblistings.getDescriptionList (),indices);
         notifyDataSetChanged ();
     }
     public void sortbyDate() {
@@ -84,6 +94,9 @@ public class joblistadapter extends RecyclerView.Adapter<joblistadapter.ViewHold
         joblistings.linklists = rearrangeArray(joblistings.linklists, indices);
         joblistings.companylist = rearrangeArray(joblistings.companylist, indices);
         joblistings.jtitlelist = rearrangeArray(joblistings.jtitlelist, indices);
+        joblistings.experienceList=rearrangeArray (joblistings.getExperienceList (),indices);
+        joblistings.tagsList=rearrangeArrayofArray (joblistings.getTagsList (),indices);
+        joblistings.descriptionList=rearrangeArray (joblistings.getDescriptionList (),indices);
         notifyDataSetChanged ();
     }
 
@@ -104,12 +117,15 @@ public class joblistadapter extends RecyclerView.Adapter<joblistadapter.ViewHold
         }
 
         // Rearrange all arrays based on the sorted indices
-            joblistings.datelist = rearrangeArray(joblistings.datelist, indices);
-            joblistings.locationlist = rearrangeArray(joblistings.locationlist, indices);
-            joblistings.salarylist = rearrangeArray(joblistings.salarylist, indices);
-            joblistings.linklists = rearrangeArray(joblistings.linklists, indices);
-            joblistings.companylist = rearrangeArray(joblistings.companylist, indices);
-            joblistings.jtitlelist = rearrangeArray(joblistings.jtitlelist, indices);
+        joblistings.datelist = rearrangeArray(joblistings.datelist, indices);
+        joblistings.locationlist = rearrangeArray(joblistings.locationlist, indices);
+        joblistings.salarylist = rearrangeArray(joblistings.salarylist, indices);
+        joblistings.linklists = rearrangeArray(joblistings.linklists, indices);
+        joblistings.companylist = rearrangeArray(joblistings.companylist, indices);
+        joblistings.jtitlelist = rearrangeArray(joblistings.jtitlelist, indices);
+        joblistings.experienceList=rearrangeArray (joblistings.getExperienceList (),indices);
+        joblistings.tagsList=rearrangeArrayofArray (joblistings.getTagsList (),indices);
+        joblistings.descriptionList=rearrangeArray (joblistings.getDescriptionList (),indices);
             notifyDataSetChanged ();
     }
     // Helper method to rearrange an ArrayList based on indices
@@ -154,7 +170,7 @@ public class joblistadapter extends RecyclerView.Adapter<joblistadapter.ViewHold
             }else{
                 holder.salaryTextView.setText (salar+" Lakhs");
             }
-
+            holder.expview.setText (joblistings.getExperienceList ().get (position)+"+ years experience");
             String url=joblistings.getLinklists ().get (position);
             holder.applybtn.setOnClickListener (new View.OnClickListener ( ) {
                 @Override
@@ -167,6 +183,34 @@ public class joblistadapter extends RecyclerView.Adapter<joblistadapter.ViewHold
 
                     // Start the activity using the created Intent
                     view.getContext ().startActivity (intent);
+                }
+            });
+            holder.favratebtn.setOnClickListener (new View.OnClickListener ( ) {
+                @Override
+                public void onClick(View view) {
+                    favorateModel favorateModell=new favorateModel ();
+                    favorateModell.setDate (joblistings.getDatelist ().get (position));
+                    favorateModell.setDescription (joblistings.getDescriptionList ().get (position));
+                    favorateModell.setLocation (joblistings.getLocationlist ().get (position));
+                    favorateModell.setSalary (joblistings.getSalarylist ().get (position));
+                    favorateModell.setLink (joblistings.getLinklists ().get (position));
+                    favorateModell.setCompany (joblistings.getCompanylist ().get (position));
+                    favorateModell.setJtitle (joblistings.getJtitlelist ().get (position));
+                    favorateModell.setTagsList (joblistings.getTagsList ().get (position));
+                    favorateModell.setExperience (joblistings.getExperienceList ().get (position));
+                    DatabaseReference dr= FirebaseDatabase.getInstance ().getReference ().child ("favorateModel");
+                    dr.child (String.valueOf (System.currentTimeMillis() + new Random ().nextInt(1000))).setValue (favorateModell).addOnSuccessListener (new OnSuccessListener<Void> ( ) {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            Toast.makeText (view.getContext ( ), "Added to favorite!", Toast.LENGTH_SHORT).show ( );
+                            holder.favratebtn.setImageDrawable (ContextCompat.getDrawable (view.getContext ( ), R.drawable.ic_baseline_favorite_24));
+                        }
+                    }).addOnFailureListener (new OnFailureListener ( ) {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText (view.getContext ( ), "Error!", Toast.LENGTH_SHORT).show ( );
+                        }
+                    });
                 }
             });
         }
@@ -193,6 +237,9 @@ public class joblistadapter extends RecyclerView.Adapter<joblistadapter.ViewHold
                     ArrayList<String> linklists=new ArrayList<> (  );
                     ArrayList<String> companylist=new ArrayList<> (  );
                     ArrayList<String> jtitlelist=new ArrayList<> (  );
+                    ArrayList<String> explist=new ArrayList<> (  );
+                    ArrayList<ArrayList<String>>taglst=new ArrayList<> (  );
+                    ArrayList<String >deslist=new ArrayList<> (  );
                     for (int i=0;i<joblistings.getDatelist ().size ();i++) {
                         if (joblistings.getCompanylist ().get (i).toLowerCase().contains(filterPattern) | joblistings.getLocationlist ().get (i).toLowerCase()
                                 .contains (filterPattern)) {
@@ -204,7 +251,9 @@ public class joblistadapter extends RecyclerView.Adapter<joblistadapter.ViewHold
                             companylist.add (joblistings.getCompanylist ().get (i));
                             Log.d("comany filtered: ",joblistings.getCompanylist ().get (i));
                             jtitlelist.add (joblistings.getJtitlelist ().get (i));
-
+                            explist.add (joblistings.getExperienceList ().get (i));
+                            taglst.add (joblistings.getTagsList ().get (i));
+                            deslist.add (joblistings.getDescriptionList ().get (i));
                         }
                     }
                     if(companylist.size ()>0){
@@ -213,7 +262,12 @@ public class joblistadapter extends RecyclerView.Adapter<joblistadapter.ViewHold
                     filteredjoblist.setLocationlist (locationlist);
                     filteredjoblist.setJtitlelist (jtitlelist);
                     filteredjoblist.setDatelist (datelist);
-                    filteredjoblist.setSalarylist (salarylist);}
+                    filteredjoblist.setSalarylist (salarylist);
+                    filteredjoblist.setDescriptionList (deslist);
+                    filteredjoblist.setTagsList (taglst);
+                    filteredjoblist.setExperienceList (explist);
+
+                    }
                 }
 
                 FilterResults results = new FilterResults();
@@ -237,6 +291,8 @@ public class joblistadapter extends RecyclerView.Adapter<joblistadapter.ViewHold
         TextView salaryTextView;
         TextView datePostedTextView;
         Button applybtn;
+        ImageButton favratebtn;
+        TextView expview;
         public ViewHolder(@NonNull View itemView) {
             super (itemView);
             shimmerFrameLayout=itemView.findViewById (R.id.shimmer_view_container);
@@ -245,6 +301,9 @@ public class joblistadapter extends RecyclerView.Adapter<joblistadapter.ViewHold
             salaryTextView = itemView.findViewById(R.id.text_job_salary);
             datePostedTextView = itemView.findViewById(R.id.text_date_posted);
             applybtn=itemView.findViewById (R.id.button3);
+            favratebtn=itemView.findViewById (R.id.imageButton);
+            expview=itemView.findViewById (R.id.textView20);
+            
         }
     }
 

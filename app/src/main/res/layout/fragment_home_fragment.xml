@@ -89,6 +89,13 @@
                     android:src="@drawable/ic_baseline_filter_alt_24"
                     app:tint="#ffffff" />
             </LinearLayout>
+            <Spinner
+                android:id="@+id/jobTitleSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5sp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"/>
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

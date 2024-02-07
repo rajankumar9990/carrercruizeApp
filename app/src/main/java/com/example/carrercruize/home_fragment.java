@@ -13,6 +13,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -43,6 +44,7 @@ public class home_fragment extends Fragment {
     private static  joblistadapter jobAdapter;
     private static joblisting jobListings;
     private static final String API_URL = "https://careercruzefunction.azurewebsites.net/api/HttpTrigger1?";
+    private String currentUrl="url=https://www.naukri.com&jtitle=";
     private static final ArrayList<String> datelist = new ArrayList<> (  );
     private static ArrayList<String> locationlist;
     private static ArrayList<String> descriptionlist;
@@ -55,6 +57,7 @@ public class home_fragment extends Fragment {
     private static SharedPreferencesManager preferencesManager;
     private static ImageButton filterButton;
     private PopupWindow filterPopup;
+    private  Spinner jtitlespinner;
     TextView relodbtn;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -64,9 +67,39 @@ public class home_fragment extends Fragment {
         searchView=view.findViewById (R.id.searchView);
         filterButton=view.findViewById (R.id.filterButton);
         relodbtn=view.findViewById (R.id.textView19);
+        jtitlespinner=view.findViewById (R.id.jobTitleSpinner);
         filterButton.setOnClickListener (v-> showpopup());
 
+        //spinner jobtitle....
+        List<String> spinnerlist=new ArrayList<> (  );
+        spinnerlist.add ("Data-Scientist");
+        spinnerlist.add ("Data-Engineer");
+        spinnerlist.add ("Software-Engineer");
+        spinnerlist.add ("Junior-Engineer");
+        spinnerlist.add ("Full-Stack-Engineer");
+        ArrayAdapter<String> stringArrayAdapter=new ArrayAdapter<> (getContext (), android.R.layout.simple_spinner_item,spinnerlist);
+        stringArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        jtitlespinner.setAdapter (stringArrayAdapter);
+        jtitlespinner.setOnItemSelectedListener (new AdapterView.OnItemSelectedListener ( ) {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.d ("JobTitlespinner Block:","Running on selected jobttitle");
+                jobListings=new joblisting ();
+                jobAdapter.setdata (jobListings);
+                jobAdapter.showshimmer=true;
+                jobAdapter.notifyDataSetChanged ();
+                new FetchDataTask ().execute (API_URL+currentUrl+jtitlespinner.getSelectedItem ());
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                jobListings=new joblisting ();
+                jobAdapter.setdata (jobListings);
+                jobAdapter.notifyDataSetChanged ();
+                jobAdapter.showshimmer=true;
+                new FetchDataTask ().execute (API_URL+currentUrl+jtitlespinner.getSelectedItem ());
+            }
+        });
 
         // Initialize RecyclerView and set the adapter
 //        datelist=new ArrayList<> (  );
@@ -89,7 +122,7 @@ public class home_fragment extends Fragment {
         if (preferencesManager.shouldUpdateData(updateIntervalMillis) | preferencesManager.getJobListing ()==null) {
             // Perform the update by fetching new data from the API
             // Update the JobListing object and save it
-            new FetchDataTask().execute(API_URL);
+            new FetchDataTask().execute(API_URL+currentUrl+jtitlespinner.getSelectedItem ());
         }
         else{
             jobListings=preferencesManager.getJobListing ();
@@ -103,6 +136,7 @@ public class home_fragment extends Fragment {
             @Override
             public void onClick(View view) {
                 jobAdapter.setdata (jobListings);
+                jobAdapter.showshimmer=false;
                 jobAdapter.notifyDataSetChanged();
             }
         });
@@ -148,6 +182,8 @@ public class home_fragment extends Fragment {
         RadioButton sortlth=popupView.findViewById (R.id.radioSortSalaryLowToHigh);
         RadioButton sorthtl=popupView.findViewById (R.id.radioSortSalaryHighToLow);
         RadioButton sortexp=popupView.findViewById (R.id.radioSortbyexperience);
+        RadioButton sortnaukri=popupView.findViewById (R.id.naukriRadioButton);
+        RadioButton sortfoundit=popupView.findViewById (R.id.founditRadioButton);
         ImageButton close=popupView.findViewById (R.id.imageView3);
         close.setOnClickListener (v->filterPopup.dismiss ());
         applyButton.setOnClickListener(v -> {
@@ -161,6 +197,23 @@ public class home_fragment extends Fragment {
                 jobAdapter.sortbyDate ();
             }else if(sortexp.isChecked ()){
                 jobAdapter.sortbyExperience ();
+            }if(sortnaukri.isChecked ()){
+                String url="url=https://www.naukri.com&jtitle=";
+                currentUrl=url;
+                jobListings=new joblisting ();
+                jobAdapter.setdata (jobListings);
+                jobAdapter.showshimmer=true;
+                jobAdapter.notifyDataSetChanged ();
+                new FetchDataTask ().execute (API_URL+currentUrl+jtitlespinner.getSelectedItem ());
+            }
+            else if(sortfoundit.isChecked ()){
+                String url="url=https://www.foundit.in/search&jtitle=";
+                currentUrl=url;
+                jobListings=new joblisting ();
+                jobAdapter.setdata (jobListings);
+                jobAdapter.notifyDataSetChanged ();
+                jobAdapter.showshimmer=true;
+                new FetchDataTask ().execute (API_URL+currentUrl+jtitlespinner.getSelectedItem ());
             }
             filterPopup.dismiss();
         });
@@ -256,6 +309,7 @@ public class home_fragment extends Fragment {
                         jobListings.setLinklists (linklists);
                         jobListings.setCompanylist (companylist);
                         jobListings.setTagsList (tagsList);
+                        jobListings.setDescriptionList (descriptionlist);
                         jobListings.setExperienceList (experienceList);
                         preferencesManager.saveJobListing (jobListings);//saving data in sharedPrefernces
                         Log.d("Data saved!",String.valueOf (preferencesManager.getJobListing ().getCompanylist ().size ()));

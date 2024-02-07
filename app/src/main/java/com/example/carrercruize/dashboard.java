@@ -63,7 +63,7 @@ public class dashboard extends AppCompatActivity {
         //bottom navigation
         BottomNavigationView bottomNavigationView=findViewById (R.id.bottomNavigationView);
         home_fragment homeFragment=new home_fragment ();
-        job_fragment jobFragment=new job_fragment ();
+        favorite_fragment favorite_Fragment=new favorite_fragment ();
         profile_fragment profileFragment=new profile_fragment ();
         getSupportFragmentManager ().beginTransaction ().replace (R.id.container,homeFragment).commit ();
 
@@ -75,7 +75,7 @@ public class dashboard extends AppCompatActivity {
                         getSupportFragmentManager ().beginTransaction ().replace (R.id.container,homeFragment).commit ();
                         return true;
                     case R.id.jobnavigate:
-                        getSupportFragmentManager ().beginTransaction ().replace (R.id.container,jobFragment).commit ();
+                        getSupportFragmentManager ().beginTransaction ().replace (R.id.container,favorite_Fragment).commit ();
                         return true;
                     case R.id.profilenavigate:
                         getSupportFragmentManager ().beginTransaction ().replace (R.id.container,profileFragment).commit ();
