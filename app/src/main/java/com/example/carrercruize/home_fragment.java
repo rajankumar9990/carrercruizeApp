@@ -85,7 +85,7 @@ public class home_fragment extends Fragment {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 Log.d ("JobTitlespinner Block:","Running on selected jobttitle");
                 jobListings=new joblisting ();
-                jobAdapter.setdata (jobListings);
+                jobAdapter=new joblistadapter (jobListings);
                 jobAdapter.showshimmer=true;
                 jobAdapter.notifyDataSetChanged ();
                 new FetchDataTask ().execute (API_URL+currentUrl+jtitlespinner.getSelectedItem ());
@@ -93,10 +93,11 @@ public class home_fragment extends Fragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
+                Log.d ("JobTitlespinner Block:","Running on selected jobttitle");
                 jobListings=new joblisting ();
-                jobAdapter.setdata (jobListings);
-                jobAdapter.notifyDataSetChanged ();
+                jobAdapter=new joblistadapter (jobListings);
                 jobAdapter.showshimmer=true;
+                jobAdapter.notifyDataSetChanged ();
                 new FetchDataTask ().execute (API_URL+currentUrl+jtitlespinner.getSelectedItem ());
             }
         });
@@ -119,9 +120,10 @@ public class home_fragment extends Fragment {
         preferencesManager= new SharedPreferencesManager(getContext ());
         // Check if an update is needed (e.g., every 24 hours)
         long updateIntervalMillis = TimeUnit.MINUTES.toMillis(5);
-        if (preferencesManager.shouldUpdateData(updateIntervalMillis) | preferencesManager.getJobListing ()==null) {
+        if (preferencesManager.shouldUpdateData(updateIntervalMillis) | preferencesManager.getJobListing ()==null | jobListings==null) {
             // Perform the update by fetching new data from the API
             // Update the JobListing object and save it
+            Log.d ("time stamp changed:","Updating list for new time stamp");
             new FetchDataTask().execute(API_URL+currentUrl+jtitlespinner.getSelectedItem ());
         }
         else{
@@ -135,10 +137,11 @@ public class home_fragment extends Fragment {
         relodbtn.setOnClickListener (new View.OnClickListener ( ) {
             @Override
             public void onClick(View view) {
+                if (jobListings!=null){
                 jobAdapter.setdata (jobListings);
                 jobAdapter.showshimmer=false;
                 jobAdapter.notifyDataSetChanged();
-            }
+            }}
         });
         //searchView implementation.............
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -211,8 +214,8 @@ public class home_fragment extends Fragment {
                 currentUrl=url;
                 jobListings=new joblisting ();
                 jobAdapter.setdata (jobListings);
-                jobAdapter.notifyDataSetChanged ();
                 jobAdapter.showshimmer=true;
+                jobAdapter.notifyDataSetChanged ();
                 new FetchDataTask ().execute (API_URL+currentUrl+jtitlespinner.getSelectedItem ());
             }
             filterPopup.dismiss();
