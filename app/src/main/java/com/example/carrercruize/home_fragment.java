@@ -69,39 +69,6 @@ public class home_fragment extends Fragment {
         relodbtn=view.findViewById (R.id.textView19);
         jtitlespinner=view.findViewById (R.id.jobTitleSpinner);
         filterButton.setOnClickListener (v-> showpopup());
-
-        //spinner jobtitle....
-        List<String> spinnerlist=new ArrayList<> (  );
-        spinnerlist.add ("Data-Scientist");
-        spinnerlist.add ("Data-Engineer");
-        spinnerlist.add ("Software-Engineer");
-        spinnerlist.add ("Junior-Engineer");
-        spinnerlist.add ("Full-Stack-Engineer");
-        ArrayAdapter<String> stringArrayAdapter=new ArrayAdapter<> (getContext (), android.R.layout.simple_spinner_item,spinnerlist);
-        stringArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        jtitlespinner.setAdapter (stringArrayAdapter);
-        jtitlespinner.setOnItemSelectedListener (new AdapterView.OnItemSelectedListener ( ) {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.d ("JobTitlespinner Block:","Running on selected jobttitle");
-                jobListings=new joblisting ();
-                jobAdapter=new joblistadapter (jobListings);
-                jobAdapter.showshimmer=true;
-                jobAdapter.notifyDataSetChanged ();
-                new FetchDataTask ().execute (API_URL+currentUrl+jtitlespinner.getSelectedItem ());
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                Log.d ("JobTitlespinner Block:","Running on selected jobttitle");
-                jobListings=new joblisting ();
-                jobAdapter=new joblistadapter (jobListings);
-                jobAdapter.showshimmer=true;
-                jobAdapter.notifyDataSetChanged ();
-                new FetchDataTask ().execute (API_URL+currentUrl+jtitlespinner.getSelectedItem ());
-            }
-        });
-
         // Initialize RecyclerView and set the adapter
 //        datelist=new ArrayList<> (  );
         locationlist=new ArrayList<> (  );
@@ -115,6 +82,38 @@ public class home_fragment extends Fragment {
         recyclerView = view.findViewById (R.id.recycler_view_jobs);
         recyclerView.setLayoutManager (new LinearLayoutManager (getActivity ( )));
         recyclerView.setAdapter (jobAdapter);
+        //spinner jobtitle....
+        List<String> spinnerlist=new ArrayList<> (  );
+        spinnerlist.add ("Data-Scientist");
+        spinnerlist.add ("Data-Engineer");
+        spinnerlist.add ("Software-Engineer");
+        spinnerlist.add ("Junior-Engineer");
+        spinnerlist.add ("Full-Stack-Engineer");
+        ArrayAdapter<String> stringArrayAdapter=new ArrayAdapter<> (getContext (), android.R.layout.simple_spinner_item,spinnerlist);
+        stringArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        jtitlespinner.setAdapter (stringArrayAdapter);
+//        jtitlespinner.setOnItemSelectedListener (new AdapterView.OnItemSelectedListener ( ) {
+//            @Override
+//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//                Log.d ("JobTitlespinner Block:","Running on selected jobttitle");
+//                jobListings=new joblisting ();
+//                jobAdapter=new joblistadapter (jobListings);
+//                jobAdapter.showshimmer=true;
+//                jobAdapter.notifyDataSetChanged ();
+//                new FetchDataTask ().execute (API_URL+currentUrl+jtitlespinner.getSelectedItem ());
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> adapterView) {
+//                Log.d ("JobTitlespinner Block:","Running on selected jobttitle");
+//                jobListings=new joblisting ();
+//                jobAdapter=new joblistadapter (jobListings);
+//                jobAdapter.showshimmer=true;
+//                jobAdapter.notifyDataSetChanged ();
+//                new FetchDataTask ().execute (API_URL+currentUrl+jtitlespinner.getSelectedItem ());
+//            }
+//        });
+
         //working upon api....
         // Execute the AsyncTask to make the HTTP request
         preferencesManager= new SharedPreferencesManager(getContext ());
@@ -138,6 +137,7 @@ public class home_fragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (jobListings!=null){
+                    Log.d ("Relod:","Reloding the data list");
                 jobAdapter.setdata (jobListings);
                 jobAdapter.showshimmer=false;
                 jobAdapter.notifyDataSetChanged();
@@ -201,21 +201,21 @@ public class home_fragment extends Fragment {
             }else if(sortexp.isChecked ()){
                 jobAdapter.sortbyExperience ();
             }if(sortnaukri.isChecked ()){
+                Log.d ("Sort applying: ","naukri.com data is being fatched");
                 String url="url=https://www.naukri.com&jtitle=";
                 currentUrl=url;
                 jobListings=new joblisting ();
-                jobAdapter.setdata (jobListings);
-                jobAdapter.showshimmer=true;
-                jobAdapter.notifyDataSetChanged ();
+                jobAdapter=new joblistadapter (jobListings);
+                recyclerView.setAdapter (jobAdapter);
                 new FetchDataTask ().execute (API_URL+currentUrl+jtitlespinner.getSelectedItem ());
             }
             else if(sortfoundit.isChecked ()){
+                Log.d ("Sort applying: ","Foundit data is being fatched");
                 String url="url=https://www.foundit.in/search&jtitle=";
                 currentUrl=url;
                 jobListings=new joblisting ();
-                jobAdapter.setdata (jobListings);
-                jobAdapter.showshimmer=true;
-                jobAdapter.notifyDataSetChanged ();
+                jobAdapter=new joblistadapter (jobListings);
+                recyclerView.setAdapter (jobAdapter);
                 new FetchDataTask ().execute (API_URL+currentUrl+jtitlespinner.getSelectedItem ());
             }
             filterPopup.dismiss();
@@ -280,6 +280,15 @@ public class home_fragment extends Fragment {
                 JSONArray exparray=jsonResult.getJSONArray ("Experience");
                 JSONArray tagsarrasy=jsonResult.getJSONArray ("Tags");
                 Log.d ("no of tags",String.valueOf (tagsarrasy.length ()));
+                datelist.clear ();
+                descriptionlist.clear ();
+                locationlist.clear ();
+                salarylist.clear ();
+                jtitlelist.clear ();
+                linklists.clear ();
+                companylist.clear ();
+                experienceList.clear ();
+                tagsList.clear ();
                 // Process each item
                 for (int i = 0; i < dateArray.length(); i++) {
                     String date = dateArray.optString(i, "N/A");

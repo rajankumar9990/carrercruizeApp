@@ -165,7 +165,10 @@ public class joblistadapter extends RecyclerView.Adapter<joblistadapter.ViewHold
             holder.locationTextView.setText (joblistings.getLocationlist ().get (position));
             holder.salaryTextView.setBackground (null);
             String salar=joblistings.getSalarylist ().get (position);
-            if (Integer.parseInt (salar)<=0){
+            if(salar.contains (".")){
+                holder.salaryTextView.setText (salar+" Lakhs");
+            }
+            else if (Integer.parseInt (salar)<=0){
                 holder.salaryTextView.setText ("Not Disclosed");
             }else{
                 holder.salaryTextView.setText (salar+" Lakhs");
