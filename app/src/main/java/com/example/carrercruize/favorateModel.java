@@ -13,6 +13,16 @@ public class favorateModel {
     ArrayList<String> tagsList=new ArrayList<> (  );
     String experience;
 
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    String key;
+
     public  favorateModel(){
 
     }

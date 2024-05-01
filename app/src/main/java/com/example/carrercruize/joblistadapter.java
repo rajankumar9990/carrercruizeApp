@@ -39,10 +39,15 @@ public class joblistadapter extends RecyclerView.Adapter<joblistadapter.ViewHold
     private joblisting filteredjoblist=new joblisting ();
     boolean isFiltered=false;
     boolean showshimmer= true;
+    boolean showfav=true;
     private int shimmerNumber = 5;
+    private int currentpos=-1;
     public joblistadapter(joblisting joblistings) {
         this.joblistings = joblistings;
 
+    }
+    public  int getposition(){
+        return currentpos;
     }
     public joblisting getdata(){
         return this.joblistings;
@@ -155,6 +160,13 @@ public class joblistadapter extends RecyclerView.Adapter<joblistadapter.ViewHold
         if(showshimmer){
             holder.shimmerFrameLayout.startShimmer ();
         }else{
+            holder.titleTextView.setOnLongClickListener (new View.OnLongClickListener ( ) {
+                @Override
+                public boolean onLongClick(View view) {
+                    currentpos=position;
+                    return false;
+                }
+            });
             holder.shimmerFrameLayout.stopShimmer ();
             holder.shimmerFrameLayout.setShimmer (null);
             holder.datePostedTextView.setBackground (null);
@@ -188,9 +200,13 @@ public class joblistadapter extends RecyclerView.Adapter<joblistadapter.ViewHold
                     view.getContext ().startActivity (intent);
                 }
             });
+            if(!showfav){
+                holder.favratebtn.setVisibility (View.GONE);
+            }
             holder.favratebtn.setOnClickListener (new View.OnClickListener ( ) {
                 @Override
                 public void onClick(View view) {
+                    String key=String.valueOf (System.currentTimeMillis() + new Random ().nextInt(1000));
                     favorateModel favorateModell=new favorateModel ();
                     favorateModell.setDate (joblistings.getDatelist ().get (position));
                     favorateModell.setDescription (joblistings.getDescriptionList ().get (position));
@@ -201,8 +217,10 @@ public class joblistadapter extends RecyclerView.Adapter<joblistadapter.ViewHold
                     favorateModell.setJtitle (joblistings.getJtitlelist ().get (position));
                     favorateModell.setTagsList (joblistings.getTagsList ().get (position));
                     favorateModell.setExperience (joblistings.getExperienceList ().get (position));
+                    favorateModell.setKey (key);
                     DatabaseReference dr= FirebaseDatabase.getInstance ().getReference ().child ("favorateModel");
-                    dr.child (String.valueOf (System.currentTimeMillis() + new Random ().nextInt(1000))).setValue (favorateModell).addOnSuccessListener (new OnSuccessListener<Void> ( ) {
+
+                    dr.child (key).setValue (favorateModell).addOnSuccessListener (new OnSuccessListener<Void> ( ) {
                         @Override
                         public void onSuccess(Void unused) {
                             Toast.makeText (view.getContext ( ), "Added to favorite!", Toast.LENGTH_SHORT).show ( );

@@ -7,8 +7,8 @@
         android:title="Home" />
     <item
         android:id="@+id/jobnavigate"
-        android:icon="@drawable/ic_baseline_engineering_24"
-        android:title="Jobs" />
+        android:icon="@drawable/ic_baseline_favorite_24"
+        android:title="Favorite" />
     <item
         android:id="@+id/profilenavigate"
         android:icon="@drawable/ic_baseline_perm_identity_24"

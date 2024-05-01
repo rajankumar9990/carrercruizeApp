@@ -119,11 +119,18 @@ public class home_fragment extends Fragment {
         preferencesManager= new SharedPreferencesManager(getContext ());
         // Check if an update is needed (e.g., every 24 hours)
         long updateIntervalMillis = TimeUnit.MINUTES.toMillis(5);
-        if (preferencesManager.shouldUpdateData(updateIntervalMillis) | preferencesManager.getJobListing ()==null | jobListings==null) {
+        if (preferencesManager.shouldUpdateData(updateIntervalMillis) | preferencesManager.getJobListing ()==null ) {
             // Perform the update by fetching new data from the API
             // Update the JobListing object and save it
+            jobAdapter.showshimmer=true;
+            jobAdapter.notifyDataSetChanged ();
             Log.d ("time stamp changed:","Updating list for new time stamp");
-            new FetchDataTask().execute(API_URL+currentUrl+jtitlespinner.getSelectedItem ());
+            new FetchDataTask ( ).execute (API_URL + currentUrl + jtitlespinner.getSelectedItem ( ));
+            new FetchDataTask ( ).execute (API_URL + "url=https://www.foundit.in/search&jtitle=" + jtitlespinner.getSelectedItem ( ));
+            jobAdapter.showshimmer=false;
+            // Notify the adapter that the dataset has changed
+            jobAdapter.notifyDataSetChanged();
+
         }
         else{
             jobListings=preferencesManager.getJobListing ();
@@ -185,8 +192,8 @@ public class home_fragment extends Fragment {
         RadioButton sortlth=popupView.findViewById (R.id.radioSortSalaryLowToHigh);
         RadioButton sorthtl=popupView.findViewById (R.id.radioSortSalaryHighToLow);
         RadioButton sortexp=popupView.findViewById (R.id.radioSortbyexperience);
-        RadioButton sortnaukri=popupView.findViewById (R.id.naukriRadioButton);
-        RadioButton sortfoundit=popupView.findViewById (R.id.founditRadioButton);
+//        RadioButton sortnaukri=popupView.findViewById (R.id.naukriRadioButton);
+//        RadioButton sortfoundit=popupView.findViewById (R.id.founditRadioButton);
         ImageButton close=popupView.findViewById (R.id.imageView3);
         close.setOnClickListener (v->filterPopup.dismiss ());
         applyButton.setOnClickListener(v -> {
@@ -200,24 +207,25 @@ public class home_fragment extends Fragment {
                 jobAdapter.sortbyDate ();
             }else if(sortexp.isChecked ()){
                 jobAdapter.sortbyExperience ();
-            }if(sortnaukri.isChecked ()){
-                Log.d ("Sort applying: ","naukri.com data is being fatched");
-                String url="url=https://www.naukri.com&jtitle=";
-                currentUrl=url;
-                jobListings=new joblisting ();
-                jobAdapter=new joblistadapter (jobListings);
-                recyclerView.setAdapter (jobAdapter);
-                new FetchDataTask ().execute (API_URL+currentUrl+jtitlespinner.getSelectedItem ());
             }
-            else if(sortfoundit.isChecked ()){
-                Log.d ("Sort applying: ","Foundit data is being fatched");
-                String url="url=https://www.foundit.in/search&jtitle=";
-                currentUrl=url;
-                jobListings=new joblisting ();
-                jobAdapter=new joblistadapter (jobListings);
-                recyclerView.setAdapter (jobAdapter);
-                new FetchDataTask ().execute (API_URL+currentUrl+jtitlespinner.getSelectedItem ());
-            }
+//            if(sortnaukri.isChecked ()){
+//                Log.d ("Sort applying: ","naukri.com data is being fatched");
+//                String url="url=https://www.naukri.com&jtitle=";
+//                currentUrl=url;
+//                jobListings=new joblisting ();
+//                jobAdapter=new joblistadapter (jobListings);
+//                recyclerView.setAdapter (jobAdapter);
+//                new FetchDataTask ().execute (API_URL+currentUrl+jtitlespinner.getSelectedItem ());
+//            }
+//            else if(sortfoundit.isChecked ()){
+//                Log.d ("Sort applying: ","Foundit data is being fatched");
+//                String url="url=https://www.foundit.in/search&jtitle=";
+//                currentUrl=url;
+//                jobListings=new joblisting ();
+//                jobAdapter=new joblistadapter (jobListings);
+//                recyclerView.setAdapter (jobAdapter);
+//                new FetchDataTask ().execute (API_URL+currentUrl+jtitlespinner.getSelectedItem ());
+//            }
             filterPopup.dismiss();
         });
 
@@ -280,15 +288,15 @@ public class home_fragment extends Fragment {
                 JSONArray exparray=jsonResult.getJSONArray ("Experience");
                 JSONArray tagsarrasy=jsonResult.getJSONArray ("Tags");
                 Log.d ("no of tags",String.valueOf (tagsarrasy.length ()));
-                datelist.clear ();
-                descriptionlist.clear ();
-                locationlist.clear ();
-                salarylist.clear ();
-                jtitlelist.clear ();
-                linklists.clear ();
-                companylist.clear ();
-                experienceList.clear ();
-                tagsList.clear ();
+//                datelist.clear ();
+//                descriptionlist.clear ();
+//                locationlist.clear ();
+//                salarylist.clear ();
+//                jtitlelist.clear ();
+//                linklists.clear ();
+//                companylist.clear ();
+//                experienceList.clear ();
+//                tagsList.clear ();
                 // Process each item
                 for (int i = 0; i < dateArray.length(); i++) {
                     String date = dateArray.optString(i, "N/A");
@@ -325,9 +333,7 @@ public class home_fragment extends Fragment {
                         jobListings.setExperienceList (experienceList);
                         preferencesManager.saveJobListing (jobListings);//saving data in sharedPrefernces
                         Log.d("Data saved!",String.valueOf (preferencesManager.getJobListing ().getCompanylist ().size ()));
-                        jobAdapter.showshimmer=false;
-                        // Notify the adapter that the dataset has changed
-                        jobAdapter.notifyDataSetChanged();
+
                     }
 
                     // Perform actions with individual parameters (e.g., display in UI, log, etc.)

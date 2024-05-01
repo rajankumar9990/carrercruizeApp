@@ -48,22 +48,22 @@
             android:text="sort by experience(freshers level)"/>
         <!-- RadioButton for naukri.com -->
     </RadioGroup>
-    <RadioGroup
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <RadioButton
-            android:id="@+id/naukriRadioButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Jobs from Naukri.com"/>
+<!--    <RadioGroup-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content">-->
+<!--        <RadioButton-->
+<!--            android:id="@+id/naukriRadioButton"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Jobs from Naukri.com"/>-->
 
-        <!-- RadioButton for foundit.in -->
-        <RadioButton
-            android:id="@+id/founditRadioButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Jobs from Foundit.in"/>
-    </RadioGroup>
+<!--        &lt;!&ndash; RadioButton for foundit.in &ndash;&gt;-->
+<!--        <RadioButton-->
+<!--            android:id="@+id/founditRadioButton"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Jobs from Foundit.in"/>-->
+<!--    </RadioGroup>-->
 
     <!-- Apply Button -->
     <Button
