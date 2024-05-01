@@ -122,8 +122,9 @@ public class home_fragment extends Fragment {
         if (preferencesManager.shouldUpdateData(updateIntervalMillis) | preferencesManager.getJobListing ()==null ) {
             // Perform the update by fetching new data from the API
             // Update the JobListing object and save it
-            jobAdapter.showshimmer=true;
-            jobAdapter.notifyDataSetChanged ();
+            jobListings=new joblisting ();
+            jobAdapter=new joblistadapter (jobListings);
+            recyclerView.setAdapter (jobAdapter);
             Log.d ("time stamp changed:","Updating list for new time stamp");
             new FetchDataTask ( ).execute (API_URL + currentUrl + jtitlespinner.getSelectedItem ( ));
             new FetchDataTask ( ).execute (API_URL + "url=https://www.foundit.in/search&jtitle=" + jtitlespinner.getSelectedItem ( ));
