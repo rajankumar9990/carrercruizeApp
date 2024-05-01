@@ -118,7 +118,7 @@ public class home_fragment extends Fragment {
         // Execute the AsyncTask to make the HTTP request
         preferencesManager= new SharedPreferencesManager(getContext ());
         // Check if an update is needed (e.g., every 24 hours)
-        long updateIntervalMillis = TimeUnit.MINUTES.toMillis(5);
+        long updateIntervalMillis = TimeUnit.MINUTES.toMillis(2);
         if (preferencesManager.shouldUpdateData(updateIntervalMillis) ) {
             // Perform the update by fetching new data from the API
             // Update the JobListing object and save it
@@ -130,27 +130,17 @@ public class home_fragment extends Fragment {
                 jobAdapter.setdata (jobListings);
                 jobAdapter.showshimmer=true;
                 jobAdapter.notifyDataSetChanged ();
-                new FetchDataTask ( ).execute (API_URL + currentUrl + jtitlespinner.getSelectedItem ( ));
-                new FetchDataTask ( ).execute (API_URL + "url=https://www.foundit.in/search&jtitle=" + jtitlespinner.getSelectedItem ( ));
+                FetchDataTask t1=new FetchDataTask ( );
+                FetchDataTask t2=new FetchDataTask ();
+                t1.execute (API_URL + currentUrl + jtitlespinner.getSelectedItem ( ));
+                if(t1.getStatus ().equals (AsyncTask.Status.FINISHED)) {
+                    Log.d ("executing:","Foundit");
+                    t2.execute (API_URL + "url=https://www.foundit.in/search&jtitle=" + jtitlespinner.getSelectedItem ( ));
+                }
+                Log.d ("Both fetched..","Now saving....");
 
             } catch (Exception e) {
                 e.printStackTrace ( );
-            }finally {
-                if(!salarylist.isEmpty ()){
-                    jobListings.setSalarylist (salarylist);
-                    jobListings.setDatelist (datelist);
-                    jobListings.setJtitlelist (jtitlelist);
-                    jobListings.setLocationlist (locationlist);
-                    jobListings.setLinklists (linklists);
-                    jobListings.setCompanylist (companylist);
-                    jobListings.setTagsList (tagsList);
-                    jobListings.setDescriptionList (descriptionlist);
-                    jobListings.setExperienceList (experienceList);
-                    preferencesManager.saveJobListing (jobListings);//saving data in sharedPrefernces
-                    Log.d("Data saved!",String.valueOf (preferencesManager.getJobListing ().getCompanylist ().size ()));
-                    jobAdapter.showshimmer=false;
-                    jobAdapter.notifyDataSetChanged ();
-                }
             }
 
 
@@ -347,7 +337,21 @@ public class home_fragment extends Fragment {
                     companylist.add (cp);
                     experienceList.add (expstr);
                     tagsList.add (tagsTobeAdded);
-
+                    if(!salarylist.isEmpty ()){
+                        jobListings.setSalarylist (salarylist);
+                        jobListings.setDatelist (datelist);
+                        jobListings.setJtitlelist (jtitlelist);
+                        jobListings.setLocationlist (locationlist);
+                        jobListings.setLinklists (linklists);
+                        jobListings.setCompanylist (companylist);
+                        jobListings.setTagsList (tagsList);
+                        jobListings.setDescriptionList (descriptionlist);
+                        jobListings.setExperienceList (experienceList);
+                        preferencesManager.saveJobListing (jobListings);//saving data in sharedPrefernces
+                        Log.d("Data saved!",String.valueOf (preferencesManager.getJobListing ().getCompanylist ().size ()));
+                        jobAdapter.showshimmer=false;
+                        jobAdapter.notifyDataSetChanged ();
+                    }
                     // Perform actions with individual parameters (e.g., display in UI, log, etc.)
                     Log.d("API Result", "Date: " + date);
                     Log.d("API Result", "Description: " + desc);
