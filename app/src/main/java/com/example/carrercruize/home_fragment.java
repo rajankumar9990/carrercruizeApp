@@ -119,26 +119,51 @@ public class home_fragment extends Fragment {
         preferencesManager= new SharedPreferencesManager(getContext ());
         // Check if an update is needed (e.g., every 24 hours)
         long updateIntervalMillis = TimeUnit.MINUTES.toMillis(5);
-        if (preferencesManager.shouldUpdateData(updateIntervalMillis) | preferencesManager.getJobListing ()==null ) {
+        if (preferencesManager.shouldUpdateData(updateIntervalMillis) ) {
             // Perform the update by fetching new data from the API
             // Update the JobListing object and save it
-            jobListings=new joblisting ();
-            jobAdapter=new joblistadapter (jobListings);
-            recyclerView.setAdapter (jobAdapter);
+
             Log.d ("time stamp changed:","Updating list for new time stamp");
-            new FetchDataTask ( ).execute (API_URL + currentUrl + jtitlespinner.getSelectedItem ( ));
-            new FetchDataTask ( ).execute (API_URL + "url=https://www.foundit.in/search&jtitle=" + jtitlespinner.getSelectedItem ( ));
-            jobAdapter.showshimmer=false;
-            // Notify the adapter that the dataset has changed
-            jobAdapter.notifyDataSetChanged();
+            try {
+                clearlist ();
+                jobListings=new joblisting ();
+                jobAdapter.setdata (jobListings);
+                jobAdapter.showshimmer=true;
+                jobAdapter.notifyDataSetChanged ();
+                new FetchDataTask ( ).execute (API_URL + currentUrl + jtitlespinner.getSelectedItem ( ));
+                new FetchDataTask ( ).execute (API_URL + "url=https://www.foundit.in/search&jtitle=" + jtitlespinner.getSelectedItem ( ));
+
+            } catch (Exception e) {
+                e.printStackTrace ( );
+            }finally {
+                if(!salarylist.isEmpty ()){
+                    jobListings.setSalarylist (salarylist);
+                    jobListings.setDatelist (datelist);
+                    jobListings.setJtitlelist (jtitlelist);
+                    jobListings.setLocationlist (locationlist);
+                    jobListings.setLinklists (linklists);
+                    jobListings.setCompanylist (companylist);
+                    jobListings.setTagsList (tagsList);
+                    jobListings.setDescriptionList (descriptionlist);
+                    jobListings.setExperienceList (experienceList);
+                    preferencesManager.saveJobListing (jobListings);//saving data in sharedPrefernces
+                    Log.d("Data saved!",String.valueOf (preferencesManager.getJobListing ().getCompanylist ().size ()));
+                    jobAdapter.showshimmer=false;
+                    jobAdapter.notifyDataSetChanged ();
+                }
+            }
+
 
         }
         else{
             jobListings=preferencesManager.getJobListing ();
             Log.d("Retrieved data",String.valueOf (jobListings.getCompanylist ().size ()));
-            jobAdapter.setdata (jobListings);
-            jobAdapter.showshimmer=false;
-            jobAdapter.notifyDataSetChanged ();
+            if(jobListings.getCompanylist ().size ()>1){
+                jobAdapter.setdata (jobListings);
+                jobAdapter.showshimmer=false;
+                jobAdapter.notifyDataSetChanged ();
+            }
+
         }
         //Relod btn
         relodbtn.setOnClickListener (new View.OnClickListener ( ) {
@@ -322,20 +347,6 @@ public class home_fragment extends Fragment {
                     companylist.add (cp);
                     experienceList.add (expstr);
                     tagsList.add (tagsTobeAdded);
-                    if(!salarylist.isEmpty ()){
-                        jobListings.setSalarylist (salarylist);
-                        jobListings.setDatelist (datelist);
-                        jobListings.setJtitlelist (jtitlelist);
-                        jobListings.setLocationlist (locationlist);
-                        jobListings.setLinklists (linklists);
-                        jobListings.setCompanylist (companylist);
-                        jobListings.setTagsList (tagsList);
-                        jobListings.setDescriptionList (descriptionlist);
-                        jobListings.setExperienceList (experienceList);
-                        preferencesManager.saveJobListing (jobListings);//saving data in sharedPrefernces
-                        Log.d("Data saved!",String.valueOf (preferencesManager.getJobListing ().getCompanylist ().size ()));
-
-                    }
 
                     // Perform actions with individual parameters (e.g., display in UI, log, etc.)
                     Log.d("API Result", "Date: " + date);
@@ -350,5 +361,16 @@ public class home_fragment extends Fragment {
                 Log.e("API Result", "Error parsing JSON: " + e.getMessage());
             }
         }
+    }
+    private void clearlist(){
+        datelist.clear ();
+        descriptionlist.clear ();
+        locationlist.clear ();
+        salarylist.clear ();
+        jtitlelist.clear ();
+        linklists.clear ();
+        companylist.clear ();
+        experienceList.clear ();
+        tagsList.clear ();
     }
 }
