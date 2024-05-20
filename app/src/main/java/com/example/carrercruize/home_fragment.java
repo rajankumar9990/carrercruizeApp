@@ -57,7 +57,7 @@ public class home_fragment extends Fragment {
     private static SharedPreferencesManager preferencesManager;
     private static ImageButton filterButton;
     private PopupWindow filterPopup;
-    private  Spinner jtitlespinner;
+    private static Spinner jtitlespinner;
     TextView relodbtn;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -92,69 +92,57 @@ public class home_fragment extends Fragment {
         ArrayAdapter<String> stringArrayAdapter=new ArrayAdapter<> (getContext (), android.R.layout.simple_spinner_item,spinnerlist);
         stringArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         jtitlespinner.setAdapter (stringArrayAdapter);
+
+        new FetchDataTask ().execute (API_URL+currentUrl+jtitlespinner.getSelectedItem ());
+        Log.d("Fetching............","............Foundit.......");
+        Toast.makeText(getContext(), "Fetching foundit data.", Toast.LENGTH_SHORT).show();
+        new FetchDataTask ().execute (API_URL+"url=https://www.foundit.in/search&jtitle="+jtitlespinner.getSelectedItem ());
+        //working upon api....
+        // Execute the AsyncTask to make the HTTP request
+//        preferencesManager= new SharedPreferencesManager(getContext ());
+//        // Check if an update is needed (e.g., every 24 hours)
+//        long updateIntervalMillis = TimeUnit.MINUTES.toMillis(2);
+//        if (preferencesManager.shouldUpdateData(updateIntervalMillis) | preferencesManager.getJobListing()==null) {
+//            // Perform the update by fetching new data from the API
+//            // Update the JobListing object and save it
+//
+//            Log.d ("time stamp changed:","Updating list for new time stamp");
+//            new FetchDataTask().execute (API_URL + currentUrl + jtitlespinner.getSelectedItem ( ));
+//
+//            new FetchDataTask().execute(API_URL + "url=https://www.foundit.in/search&jtitle="+ jtitlespinner.getSelectedItem ( ));
+//
+//        }
+//        else{
+//            jobListings=preferencesManager.getJobListing ();
+//            Log.d("Retrieved data",String.valueOf (jobListings.getCompanylist ().size ()));
+//            if(jobListings.getCompanylist ().size ()>1){
+//                jobAdapter.setdata (jobListings);
+//                jobAdapter.showshimmer=false;
+//                jobAdapter.notifyDataSetChanged ();
+//            }else{
+//                Log.d("Fetching data.....","else loop");
+//                new FetchDataTask().execute (API_URL + currentUrl + jtitlespinner.getSelectedItem ( ));
+//            }
+//
+//        }
+        //spinnerr...........
 //        jtitlespinner.setOnItemSelectedListener (new AdapterView.OnItemSelectedListener ( ) {
 //            @Override
 //            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 //                Log.d ("JobTitlespinner Block:","Running on selected jobttitle");
+//                clearlist();
 //                jobListings=new joblisting ();
 //                jobAdapter=new joblistadapter (jobListings);
+//
 //                jobAdapter.showshimmer=true;
-//                jobAdapter.notifyDataSetChanged ();
-//                new FetchDataTask ().execute (API_URL+currentUrl+jtitlespinner.getSelectedItem ());
-//            }
+//                jobAdapter.notifyDataSetChanged();
+//                new FetchDataTask ().execute (API_URL+currentUrl+jtitlespinner.getSelectedItem ());}
 //
 //            @Override
 //            public void onNothingSelected(AdapterView<?> adapterView) {
-//                Log.d ("JobTitlespinner Block:","Running on selected jobttitle");
-//                jobListings=new joblisting ();
-//                jobAdapter=new joblistadapter (jobListings);
-//                jobAdapter.showshimmer=true;
-//                jobAdapter.notifyDataSetChanged ();
-//                new FetchDataTask ().execute (API_URL+currentUrl+jtitlespinner.getSelectedItem ());
+//
 //            }
 //        });
-
-        //working upon api....
-        // Execute the AsyncTask to make the HTTP request
-        preferencesManager= new SharedPreferencesManager(getContext ());
-        // Check if an update is needed (e.g., every 24 hours)
-        long updateIntervalMillis = TimeUnit.MINUTES.toMillis(2);
-        if (preferencesManager.shouldUpdateData(updateIntervalMillis) ) {
-            // Perform the update by fetching new data from the API
-            // Update the JobListing object and save it
-
-            Log.d ("time stamp changed:","Updating list for new time stamp");
-            try {
-                clearlist ();
-                jobListings=new joblisting ();
-                jobAdapter.setdata (jobListings);
-                jobAdapter.showshimmer=true;
-                jobAdapter.notifyDataSetChanged ();
-                FetchDataTask t1=new FetchDataTask ( );
-                FetchDataTask t2=new FetchDataTask ();
-                t1.execute (API_URL + currentUrl + jtitlespinner.getSelectedItem ( ));
-                if(t1.getStatus ().equals (AsyncTask.Status.FINISHED)) {
-                    Log.d ("executing:","Foundit");
-                    t2.execute (API_URL + "url=https://www.foundit.in/search&jtitle=" + jtitlespinner.getSelectedItem ( ));
-                }
-                Log.d ("Both fetched..","Now saving....");
-
-            } catch (Exception e) {
-                e.printStackTrace ( );
-            }
-
-
-        }
-        else{
-            jobListings=preferencesManager.getJobListing ();
-            Log.d("Retrieved data",String.valueOf (jobListings.getCompanylist ().size ()));
-            if(jobListings.getCompanylist ().size ()>1){
-                jobAdapter.setdata (jobListings);
-                jobAdapter.showshimmer=false;
-                jobAdapter.notifyDataSetChanged ();
-            }
-
-        }
         //Relod btn
         relodbtn.setOnClickListener (new View.OnClickListener ( ) {
             @Override
@@ -267,7 +255,6 @@ public class home_fragment extends Fragment {
 
         @Override
         protected void onPostExecute(String result) {
-            // Handle the result on the UI thread
             handleResult(result);
         }
 
@@ -337,6 +324,14 @@ public class home_fragment extends Fragment {
                     companylist.add (cp);
                     experienceList.add (expstr);
                     tagsList.add (tagsTobeAdded);
+
+                    // Perform actions with individual parameters (e.g., display in UI, log, etc.)
+                    Log.d("API Result", "Date: " + date);
+                    Log.d("API Result", "Description: " + desc);
+                    Log.d("API Result", "Location: " + location);
+                    Log.d("API Result", "Salary: " + salary);
+
+                    // You can also store these values in your data structures or use them as needed
                     if(!salarylist.isEmpty ()){
                         jobListings.setSalarylist (salarylist);
                         jobListings.setDatelist (datelist);
@@ -347,18 +342,11 @@ public class home_fragment extends Fragment {
                         jobListings.setTagsList (tagsList);
                         jobListings.setDescriptionList (descriptionlist);
                         jobListings.setExperienceList (experienceList);
-                        preferencesManager.saveJobListing (jobListings);//saving data in sharedPrefernces
-                        Log.d("Data saved!",String.valueOf (preferencesManager.getJobListing ().getCompanylist ().size ()));
+                       // preferencesManager.saveJobListing (jobListings);//saving data in sharedPrefernces
+                        //Log.d("Data saved!",String.valueOf (preferencesManager.getJobListing ().getCompanylist ().size ()));
                         jobAdapter.showshimmer=false;
                         jobAdapter.notifyDataSetChanged ();
                     }
-                    // Perform actions with individual parameters (e.g., display in UI, log, etc.)
-                    Log.d("API Result", "Date: " + date);
-                    Log.d("API Result", "Description: " + desc);
-                    Log.d("API Result", "Location: " + location);
-                    Log.d("API Result", "Salary: " + salary);
-
-                    // You can also store these values in your data structures or use them as needed
                 }
 
             } catch (JSONException e) {
